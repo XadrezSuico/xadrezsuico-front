@@ -1,0 +1,56 @@
+import { RegisterRequest } from './../_interfaces/register-request';
+import { EventPublic } from './../_interfaces/event-public';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { RegisterEventController } from '../_controllers/register-event.controller';
+
+@Component({
+  selector: 'app-register-page',
+  templateUrl: './register-page.component.html',
+  styleUrls: ['./register-page.component.css']
+})
+export class RegisterPageComponent implements OnInit, AfterViewInit {
+
+  constructor(private register_event_controller:RegisterEventController, private route: ActivatedRoute) { }
+
+  uuid:string = "";
+
+  event!:EventPublic;
+
+  request!: RegisterRequest;
+
+  is_error = false;
+  is_event = false;
+  is_event_request = false;
+  is_404 = false;
+
+  ngOnInit() {
+    this.uuid = String(this.route.snapshot.paramMap.get('uuid'));
+  }
+  ngAfterViewInit() {
+    this.getEvent();
+  }
+
+
+  async getEvent(){
+    this.is_event_request = true;
+    if(this.uuid){
+      let retorno = await this.register_event_controller.get(this.uuid);
+      console.log(retorno);
+      if(retorno.ok){
+        this.event = retorno.event;
+        this.is_event = true;
+      }else{
+        if(retorno.httpcode === 404){
+          this.is_404 = true;
+        }else{
+          this.is_error = true;
+        }
+      }
+    }else{
+      this.is_error = true;
+    }
+    this.is_event_request = false;
+  }
+
+}

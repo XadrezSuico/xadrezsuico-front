@@ -1,0 +1,22 @@
+<div class="row mt-2">
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-body card-timeline">
+
+        <ul class="timeline-1 text-black">
+          <li class="event" *ngFor="let timeline of event.info.timeline">
+            <h4>{{timeline.text}}</h4>
+            <p>{{timeline.datetime}}</p>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-body" [innerHtml]="event.info.long_description">
+      </div>
+    </div>
+  </div>
+</div>

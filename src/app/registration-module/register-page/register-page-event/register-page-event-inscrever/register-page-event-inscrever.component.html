@@ -1,0 +1,87 @@
+<div class="row mt-2" *ngIf="page === 'search'">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <h4>Comece digitando o ID, nome ou documento do(a) enxadrista:</h4>
+        <form #form="ngForm" (submit)="onSubmit()">
+          <div class="input-group mb-3">
+            <input type="text" name="search" class="form-control" [(ngModel)]="search" />
+            <div class="input-group-append">
+              <button class="btn btn-primary" type="submit"><fa-icon [icon]="faSearch"></fa-icon> Pesquisar</button>
+            </div>
+          </div>
+        </form>
+        <p class="text-center"><small>Caso o(a) enxadrista não possua cadastro, <a href="#">acesse esta página</a> e efetue.</small></p>
+        <hr/>
+        <div *ngIf="is_searching" class="text-center">
+          <fa-icon [icon]="faSearching" size="4x" [spin]="true" class="default-icon-color"></fa-icon>
+        </div>
+        <div *ngIf="has_results">
+          <h3>Resultados da Pesquisa por '{{searched}}':</h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Nome</th>
+                <th>ID</th>
+                <th>Nascimento</th>
+                <th>ID FIDE</th>
+                <th>ID CBX</th>
+                <th>ID LBX</th>
+                <th>Cidade</th>
+                <th>Clube</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let player of players">
+                <td>
+                  <button type="button" class="btn btn-success" *ngIf="player.can_register" (click)="registerForm(player.id)">Inscrever</button>
+                  <button type="button" class="btn btn-secondary disabled" *ngIf="!player.can_register">Já Inscrito</button>
+                </td>
+                <td>{{player.name}}</td>
+                <td>{{player.id}}</td>
+                <td>{{player.birthday}}</td>
+                <td>{{player.fide_id}}</td>
+                <td>{{player.cbx_id}}</td>
+                <td>{{player.lbx_id}}</td>
+                <td>{{player.city}}</td>
+                <td>{{player.club}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div *ngIf="is_register_form">
+          <app-register-page-event-inscrever-form></app-register-page-event-inscrever-form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row mt-2" *ngIf="page === 'update'">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        Atualizar Cadastro
+      </div>
+      <div class="card-body">
+        <h4>Opa...</h4>
+        <h4>Seu cadastro necessita ser preenchido com as informações faltantes antes de prosseguirmos com a inscrição.</h4>
+        <hr/>
+        <form #form="ngForm" (submit)="onSubmitUpdate()">
+          <div class="input-group mb-3" *ngIf="fields.includes('name')">
+            <label for="name">Nome</label>
+            <input type="text" id="name" name="name" class="form-control" [(ngModel)]="field_values['name']" />
+          </div>
+          <div class="input-group mb-3" *ngIf="fields.includes('born')">
+            <label for="born">Data de Nascimento</label>
+            <input type="text" id="born" name="born" class="form-control" [(ngModel)]="field_values['born']" />
+          </div>
+          <div class="form-group mb-3" *ngIf="fields.includes('email')">
+            <label for="email">E-mail</label>
+            <input type="text" id="email" name="email" class="form-control" [(ngModel)]="field_values['email']" />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

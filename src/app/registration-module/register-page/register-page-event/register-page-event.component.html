@@ -1,0 +1,84 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <div *ngIf="event">
+          <img src="{{event.info.banner}}" class="banner-img mb-2" />
+          <h1>{{event.info.title}}</h1>
+          <div class="event-description">
+            {{event.info.short_description}}
+          </div>
+        </div>
+        <div class="event-actions mt-2">
+          <ul ngbNav #nav="ngbNav" [(activeId)]="page_active" class="nav-pills">
+            <li ngbNavItem [ngbNavItem]="'home'">
+              <a ngbNavLink>Home</a>
+              <ng-template ngbNavContent>
+                <app-register-page-event-home [event]="event"></app-register-page-event-home>
+              </ng-template>
+            </li>
+            <li ngbNavItem [ngbNavItem]="'register'">
+              <a ngbNavLink active>Inscreva-se</a>
+              <ng-template ngbNavContent>
+                <app-register-page-event-inscrever [event]="event"></app-register-page-event-inscrever>
+              </ng-template>
+            </li><li ngbNavItem>
+              <a ngbNavLink>Inscritos</a>
+              <ng-template ngbNavContent>
+                Inscritos
+              </ng-template>
+            </li>
+            <li ngbNavItem>
+              <a ngbNavLink>Emparceiramentos</a>
+              <ng-template ngbNavContent>
+                Emparceiramentos
+              </ng-template>
+            </li>
+            <li ngbNavItem>
+              <a ngbNavLink>Como Chegar</a>
+              <ng-template ngbNavContent>
+                Como Chegar
+              </ng-template>
+            </li>
+            <li ngbNavItem>
+              <a ngbNavLink>Resultados</a>
+              <ng-template ngbNavContent>
+                Resultados
+              </ng-template>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row mt-2 row-infos">
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-body">
+        <fa-icon [icon]="faCalendar"></fa-icon>
+        {{event.info.date}}
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-body">
+        <fa-icon [icon]="faMapPin"></fa-icon>
+        {{event.info.city}}
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-body">
+        <fa-icon [icon]="faClock"></fa-icon>
+        {{event.info.time_control}}
+      </div>
+    </div>
+  </div>
+</div>
+<div [ngbNavOutlet]="nav"></div>
+
+
+

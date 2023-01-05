@@ -1,0 +1,11 @@
+<div class="container">
+  <div class="page" *ngIf="is_event">
+    <app-register-page-event [event]="event"></app-register-page-event>
+  </div>
+  <div class="error" *ngIf="is_error">
+    <app-register-error [request]="request"></app-register-error>
+  </div>
+  <div class="not-found" *ngIf="is_404">
+    <app-register-not-found></app-register-not-found>
+  </div>
+</div>

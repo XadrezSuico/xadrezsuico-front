@@ -1,0 +1,36 @@
+.banner-img{
+  width: 100%;
+}
+
+h1{
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.btn-action{
+  margin-right: 0.5rem;
+}
+
+.event-actions{
+  .nav-link{
+    border: 2px solid #00a65a;
+    color: #00a65a;
+    margin-right: 0.5rem;
+  }
+  .nav-link.active{
+    border: 2px solid #00a65a;
+    background: #00a65a;
+    color: #fff;
+  }
+}
+
+
+.row-infos{
+  font-size: 1.6rem;
+  font-weight: bold;
+  fa-icon{
+    margin-right: 0.2rem;
+    color: rgb(0, 47, 255);
+  }
+}

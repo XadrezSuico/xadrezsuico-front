@@ -1,0 +1,14 @@
+.error{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  text-align: center;
+  color: rgb(146, 146, 146);
+
+  fa-icon{
+    font-size: 7rem;
+    color: rgb(187, 186, 186);
+  }
+}
