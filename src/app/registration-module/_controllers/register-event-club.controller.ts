@@ -14,16 +14,16 @@ export class RegisterEventClubController{
   }
 
 
-  async search(uuid:string,search:string){
-    let url:string = `${environment.api}/v1/event/${uuid}/clubs/search?q=${search}`;
+  async search(search:string){
+    let url:string = `${environment.api}/v1/event/clubs/search?q=${search}`;
     const result = await this.http.get<RegisterRequest>(url).toPromise()
     .catch((err: HttpErrorResponse) => {
       return this.errorHelper.catchHttpError(err);
     });
     return result;
   }
-  async get(uuid:string,player_id:number){
-    let url:string = `${environment.api}/v1/event/${uuid}/clubs/get/${player_id}`;
+  async get(club_id:number){
+    let url:string = `${environment.api}/v1/event/clubs/get/${club_id}`;
     const result = await this.http.get<RegisterRequest>(url).toPromise()
     .catch((err: HttpErrorResponse) => {
       return this.errorHelper.catchHttpError(err);

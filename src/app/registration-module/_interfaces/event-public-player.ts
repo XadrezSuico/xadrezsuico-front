@@ -1,3 +1,4 @@
+import { EventPublicClub } from './event-public-club';
 import { EventPublicCity } from './event-public-city';
 export interface EventPublicPlayer{
   id:number;
@@ -12,7 +13,7 @@ export interface EventPublicPlayer{
   club_name?:string;
 
   city:EventPublicCity;
-  club:EventPublicCity;
+  club?:EventPublicClub;
 
   can_register:boolean;
   register_status:boolean;

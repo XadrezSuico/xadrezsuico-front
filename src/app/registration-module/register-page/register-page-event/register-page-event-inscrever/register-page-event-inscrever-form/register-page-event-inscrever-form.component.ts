@@ -1,3 +1,4 @@
+import { EventPublicClub } from './../../../../_interfaces/event-public-club';
 import { RegisterEventClubController } from './../../../../_controllers/register-event-club.controller';
 import { EventPublicCity } from './../../../../_interfaces/event-public-city';
 import { EventPublicCountry } from './../../../../_interfaces/event-public-country';
@@ -6,7 +7,7 @@ import { EventPublicPlayer } from './../../../../_interfaces/event-public-player
 import { EventPublic } from './../../../../_interfaces/event-public';
 import { Component, Input, OnInit } from '@angular/core';
 import { EventPublicCategory } from 'src/app/registration-module/_interfaces/event-public-category';
-import { Select2Option } from 'ng-select2-component';
+import { Select2Option, Select2SearchEvent, Select2UpdateEvent } from 'ng-select2-component';
 import { RegisterEventStateController } from 'src/app/registration-module/_controllers/register-event-state.controller';
 import { EventPublicState } from 'src/app/registration-module/_interfaces/event-public-state';
 import { RegisterEventCityController } from 'src/app/registration-module/_controllers/register-event-city.controller';
@@ -77,8 +78,10 @@ export class RegisterPageEventInscreverFormComponent implements OnInit {
   }
 
   async setClubFromPlayer(){
-    if(this.player.club_name){
+    if(this.player.club){
+      await this.addClubToSelect2(this.player.club.id);
 
+      this.club_id = this.player.club.id;
     }
   }
 
@@ -188,6 +191,56 @@ export class RegisterPageEventInscreverFormComponent implements OnInit {
     }
   }
 
+  search_count = 0;
+  async searchClubs(e:Select2SearchEvent){
+    this.search_count++;
+    let search_this_count = this.search_count;
+
+    setTimeout(async ()=>{
+      if(this.search_count === search_this_count){
+        console.log("search")
+        let response = await this.register_event_club_controller.search(e.search);
+        if(response.ok){
+          await this.parseClubsToSelect2(response.clubs);
+        }
+      }
+    },400);
+  }
+
+  async addClubToSelect2(club_id:number){
+    let response = await this.register_event_club_controller.get(club_id);
+
+    if(response.ok){
+      let item:Select2Option = {
+        value: "",
+        label: "",
+      };
+      item.value = response.club.id;
+      item.label = response.club.name;
+
+      this.clubs[this.clubs.length] = item;
+    }
+
+  }
+
+  async parseClubsToSelect2(clubs:Array<EventPublicClub>, callback:any = null){
+    this.clubs = [];
+    for(let club of clubs){
+      let item:Select2Option = {
+        value: "",
+        label: "",
+      };
+      item.value = club.id;
+      item.label = club.name;
+
+      this.clubs[this.clubs.length] = item;
+    }
+
+    if(callback){
+      callback();
+    }
+  }
+
   onSubmit(){
 
   }
@@ -212,6 +265,9 @@ export class RegisterPageEventInscreverFormComponent implements OnInit {
   }
   updateCategory(e:any){
     this.category_id = e.value;
+  }
+  updateClub(e:any){
+    this.club_id = e.value;
   }
 
 }
