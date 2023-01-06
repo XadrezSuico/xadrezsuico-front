@@ -1,3 +1,4 @@
+import { EventPublicCity } from './event-public-city';
 export interface EventPublicPlayer{
   id:number;
   name:string;
@@ -7,8 +8,11 @@ export interface EventPublicPlayer{
   lbx_id?:number;
   chesscom_username?:string;
   lichess_username?:string;
-  city:string;
-  club?:string;
+  city_name:string;
+  club_name?:string;
+
+  city:EventPublicCity;
+  club:EventPublicCity;
 
   can_register:boolean;
   register_status:boolean;

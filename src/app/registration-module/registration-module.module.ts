@@ -12,13 +12,16 @@ import { RegisterPageEventHomeComponent } from './register-page/register-page-ev
 import { RegisterPageEventInscreverComponent } from './register-page/register-page-event/register-page-event-inscrever/register-page-event-inscrever.component';
 import { RegisterPageEventInscreverFormComponent } from './register-page/register-page-event/register-page-event-inscrever/register-page-event-inscrever-form/register-page-event-inscrever-form.component';
 
+import { Select2Module } from 'ng-select2-component';
+
 @NgModule({
   imports: [
     CommonModule,
     FontAwesomeModule,
     NgbNavModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    Select2Module
   ],
   declarations: [
     RegistrationModuleComponent,

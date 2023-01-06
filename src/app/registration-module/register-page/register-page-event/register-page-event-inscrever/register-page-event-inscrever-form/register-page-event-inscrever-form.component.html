@@ -1,1 +1,35 @@
-<p>register-page-event-inscrever-form works!</p>
+<div class="col-md-12">
+  <div class="card">
+    <div class="card-header">
+      Efetuar Inscrição
+    </div>
+    <div class="card-body">
+      <form #form="ngForm" (submit)="onSubmit()">
+        <h3>Enxadrista:</h3>
+        <h5>Nome: {{player.name}}</h5>
+        <h5>Data de Nascimento: {{player.birthday}}</h5>
+        <h5>ID FIDE: {{player.fide_id}}</h5>
+        <h5>ID CBX: {{player.cbx_id}}</h5>
+        <h5>ID LBX: {{player.lbx_id}}</h5>
+        <hr/>
+
+        <div class="alert alert-warning">
+          <h5>Verifique a categoria da inscrição:</h5>
+          <label class="field-required">Categoria:</label>
+          <select2 [data]="categories_list" [value]="this.category_id" name="category_id" class="form-control"
+            (update)="updateCategory($event)"> </select2>
+          <label class="field-required"><input type="checkbox" id="inscricao_categoria_conferida"> Categoria conferida
+            *</label><br />
+        </div>
+
+
+        <label class="field-required">País:</label>
+        <select2 [data]="countries" [value]="this.country_id" name="country_id" class="form-control" (update)="updateCountry($event)"> </select2>
+        <label class="field-required">Estado/Província:</label>
+        <select2 [data]="states" [value]="this.state_id" name="state_id" class="form-control" (update)="updateState($event)"> </select2>
+        <label class="field-required">Cidade:</label>
+        <select2 [data]="cities" [value]="this.city_id" name="city_id" class="form-control" (update)="updateCity($event)"> </select2>
+      </form>
+    </div>
+  </div>
+</div>

@@ -12,11 +12,11 @@
           </div>
         </form>
         <p class="text-center"><small>Caso o(a) enxadrista não possua cadastro, <a href="#">acesse esta página</a> e efetue.</small></p>
-        <hr/>
         <div *ngIf="is_searching" class="text-center">
           <fa-icon [icon]="faSearching" size="4x" [spin]="true" class="default-icon-color"></fa-icon>
         </div>
         <div *ngIf="has_results">
+          <hr/>
           <h3>Resultados da Pesquisa por '{{searched}}':</h3>
           <table class="table">
             <thead>
@@ -44,14 +44,11 @@
                 <td>{{player.fide_id}}</td>
                 <td>{{player.cbx_id}}</td>
                 <td>{{player.lbx_id}}</td>
-                <td>{{player.city}}</td>
-                <td>{{player.club}}</td>
+                <td>{{player.city_name}}</td>
+                <td>{{player.club_name}}</td>
               </tr>
             </tbody>
           </table>
-        </div>
-        <div *ngIf="is_register_form">
-          <app-register-page-event-inscrever-form></app-register-page-event-inscrever-form>
         </div>
       </div>
     </div>
@@ -84,4 +81,7 @@
       </div>
     </div>
   </div>
+</div>
+<div class="row mt-2" *ngIf="page === 'register'">
+  <app-register-page-event-inscrever-form [event]="event" [player]="player" [categories]="categories"></app-register-page-event-inscrever-form>
 </div>

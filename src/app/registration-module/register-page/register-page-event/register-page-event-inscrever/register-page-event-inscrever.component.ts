@@ -3,6 +3,7 @@ import { RegisterEventPlayerController } from './../../../_controllers/register-
 import { EventPublic } from './../../../_interfaces/event-public';
 import { Component, Input, OnInit } from '@angular/core';
 import { faCircleNotch, faSpinner, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { EventPublicCategory } from 'src/app/registration-module/_interfaces/event-public-category';
 
 @Component({
   selector: 'app-register-page-event-inscrever',
@@ -29,6 +30,7 @@ export class RegisterPageEventInscreverComponent implements OnInit {
 
   has_results = false;
   players:Array<EventPublicPlayer> = [];
+  categories:Array<EventPublicCategory> = [];
 
   player!:EventPublicPlayer;
   fields:Array<string> = [];
@@ -86,7 +88,14 @@ export class RegisterPageEventInscreverComponent implements OnInit {
               this.page = 'update'
               this.fields = response.fields;
             }else{
-              this.page = 'register'
+              if(response.categories.length === 0){
+                this.page = 'search';
+                // TO DO ERROR - NO CATEGORIES
+              }else{
+                this.page = 'register'
+
+                this.categories = response.categories;
+              }
             }
           }
         }
