@@ -22,4 +22,41 @@ export class RegisterEventController{
     });
     return result;
   }
+
+  async register(
+    uuid:string,
+    accepts:any,
+    category_id:number,
+    player_id:number,
+    city_id:number,
+    club_id?:number
+  ){
+    let data;
+    if(club_id){
+      data = {
+        accepts: accepts,
+        category_id: category_id,
+        player_id: player_id,
+        city_id: city_id,
+        club_id: club_id
+      }
+    }else{
+      data = {
+        accepts: accepts,
+        category_id: category_id,
+        player_id: player_id,
+        city_id: city_id
+      }
+    }
+    console.log(data);
+
+    await new Promise(r => setTimeout(r, 300));
+
+    let url:string = `${environment.api}/v1/event/register/${uuid}`;
+    const result = await this.http.post<RegisterRequest>(url,data).toPromise()
+    .catch((err: HttpErrorResponse) => {
+      return this.errorHelper.catchHttpError(err);
+    });
+    return result;
+  }
 }

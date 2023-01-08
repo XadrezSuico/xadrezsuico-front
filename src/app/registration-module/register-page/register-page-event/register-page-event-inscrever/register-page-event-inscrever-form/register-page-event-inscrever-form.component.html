@@ -18,7 +18,7 @@
           <label class="field-required">Categoria:</label>
           <select2 [data]="categories_list" [value]="this.category_id" name="category_id" class="form-control"
             (update)="updateCategory($event)"> </select2>
-          <label class="field-required"><input type="checkbox" id="inscricao_categoria_conferida"> Categoria conferida
+          <label class="field-required"><input type="checkbox" id="inscricao_categoria_conferida" [value]="accepts.category" (change)="updateAcceptCategory($event)"> Categoria conferida
             *</label><br />
         </div>
 
@@ -47,7 +47,7 @@
         class="form-control"
         (update)="updateCity($event)"> </select2>
 
-        <label class="field-required">Clube:</label>
+        <label>Clube:</label>
         <select2
           [data]="clubs"
           [value]="this.club_id"
@@ -59,6 +59,20 @@
           class="form-control"
           (update)="updateClub($event)"
           (search)="searchClubs($event)"> </select2>
+          <hr/>
+
+          <h6>Aceites:</h6>
+          <label class="field-required">
+            <input type="checkbox" name="regulation_accept" [value]="accepts.regulation" (change)="updateAcceptRegulation($event)"> Eu aceito o regulamento do(a) <u>{{event.info.title}}</u> integralmente.
+          </label><br />
+          <label class="field-required">
+            <input type="checkbox" name="xadrezsuico_accept" [value]="accepts.policy" (change)="updateAcceptPolicy($event)" > Eu aceito o termo de uso e a política de privacidade da Plataforma de Gerenciamento de Circuitos de Xadrez - XadrezSuíço
+            - Implementada pela Federação de Xadrez do Paraná - FEXPAR.
+          </label><br />
+          <label class="field-required">
+            <input type="checkbox" name="image_accept" [value]="accepts.image" (change)="updateAcceptImage($event)"> Eu (ou Responsável) cedo meus direitos de imagem do Enxadrista aos organizadores do <u>{{event.info.title}}</u> de forma gratuita, a
+            título de divulgação em material impresso ou digital em caráter informativo.
+          </label><br />
 
         <button type="submit" class="btn btn-success mt-3">Enviar Inscrição</button>
       </form>

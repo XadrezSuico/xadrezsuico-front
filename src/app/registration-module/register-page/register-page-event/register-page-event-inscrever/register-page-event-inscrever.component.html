@@ -83,5 +83,5 @@
   </div>
 </div>
 <div class="row mt-2" *ngIf="page === 'register'">
-  <app-register-page-event-inscrever-form [event]="event" [player]="player" [categories]="categories"></app-register-page-event-inscrever-form>
+  <app-register-page-event-inscrever-form [event]="event" [player]="player" [categories]="categories" (player_registered_event_emitter)="onPlayerRegistered()"></app-register-page-event-inscrever-form>
 </div>

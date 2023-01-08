@@ -107,4 +107,13 @@ export class RegisterPageEventInscreverComponent implements OnInit {
 
   }
 
+  async onPlayerRegistered(){
+    this.is_register_form = false;
+    this.is_searching = false;
+    this.page = 'search';
+
+    this.search = '';
+    this.searched = '';
+    this.has_results = false;
+  }
 }

@@ -5,12 +5,15 @@ import { EventPublicCountry } from './../../../../_interfaces/event-public-count
 import { RegisterEventCountryController } from './../../../../_controllers/register-event-country.controller';
 import { EventPublicPlayer } from './../../../../_interfaces/event-public-player';
 import { EventPublic } from './../../../../_interfaces/event-public';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { EventPublicCategory } from 'src/app/registration-module/_interfaces/event-public-category';
 import { Select2Option, Select2SearchEvent, Select2UpdateEvent } from 'ng-select2-component';
 import { RegisterEventStateController } from 'src/app/registration-module/_controllers/register-event-state.controller';
 import { EventPublicState } from 'src/app/registration-module/_interfaces/event-public-state';
 import { RegisterEventCityController } from 'src/app/registration-module/_controllers/register-event-city.controller';
+import Swal from 'sweetalert2';
+import { RegisterEventController } from 'src/app/registration-module/_controllers/register-event.controller';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-register-page-event-inscrever-form',
@@ -21,6 +24,7 @@ export class RegisterPageEventInscreverFormComponent implements OnInit {
 
   form_started = false;
   constructor(
+    private register_event_controller:RegisterEventController,
     private register_event_country_controller:RegisterEventCountryController,
     private register_event_state_controller:RegisterEventStateController,
     private register_event_city_controller:RegisterEventCityController,
@@ -35,6 +39,9 @@ export class RegisterPageEventInscreverFormComponent implements OnInit {
   @Input()
   categories!:Array<EventPublicCategory>;
 
+  @Output()
+  player_registered_event_emitter:EventEmitter<void> = new EventEmitter<void>();
+
   category_id!:number;
   categories_list:Array<Select2Option> = [];
 
@@ -48,6 +55,103 @@ export class RegisterPageEventInscreverFormComponent implements OnInit {
   city_id!:number;
 
   club_id!:number;
+
+  accepts = {
+    category:0,
+    regulation:0,
+    policy:0,
+    image:0,
+  };
+
+  async onSubmit(){
+    if(this.event){
+      if(this.event.uuid){
+        if(!(this.category_id > 0)){
+          Swal.fire({
+            title: 'Erro!',
+            text: "Você deve confirmar a selecionar uma categoria para se inscrever neste evento.",
+            icon: 'error',
+            confirmButtonText: 'Fechar'
+          });
+          return;
+        }
+        if(!this.accepts.category){
+          Swal.fire({
+            title: 'Erro!',
+            text: "Você deve confirmar a seleção da categoria com a opção 'Categoria Confirmada' para poder se inscrever neste evento.",
+            icon: 'error',
+            confirmButtonText: 'Fechar'
+          });
+          return;
+        }
+        if(!this.accepts.regulation){
+          Swal.fire({
+            title: 'Erro!',
+            text: "Você deve aceitar o regulamento do evento para poder se inscrever neste evento.",
+            icon: 'error',
+            confirmButtonText: 'Fechar'
+          });
+          return;
+        }
+        if(!this.accepts.policy){
+          Swal.fire({
+            title: 'Erro!',
+            text: "Você deve aceitar os termos de uso e política de privacidade da plataforma XadrezSuíço para poder se inscrever neste evento.",
+            icon: 'error',
+            confirmButtonText: 'Fechar'
+          });
+          return;
+        }
+        if(!this.accepts.image){
+          Swal.fire({
+            title: 'Erro!',
+            text: "Você deve aceitar o uso de imagem para poder se inscrever neste evento.",
+            icon: 'error',
+            confirmButtonText: 'Fechar'
+          });
+          return;
+        }
+        let response;
+        // if(this.club_id){
+          response = await this.register_event_controller.register(this.event.uuid,this.accepts,this.category_id,this.player.id,this.city_id,this.club_id);
+        // }else{
+        //   response = await this.register_event_controller.register(this.event.uuid,this.accepts,this.category_id,this.player.id,this.city_id);
+        // }
+        if(response.ok){
+          let timerInterval:number;
+          let html = "<strong>Sua inscrição foi efetuada com sucesso!</strong><hr/>";
+          html = html.concat("Você receberá em no máximo 30 minutos uma mensagem no endereço de e-mail do cadastro com a confirmação da inscrição para este evento.<hr/>");
+          html = html.concat("Caso não receba o e-mail, confira na lista de inscritos (Acessível no topo desta página em 'Visualizar Lista de Inscrições') e verifique se lá consta o nome do(a) enxadrista em questão.");
+          html = html.concat("Caso não apareça, tente novamente o processo de inscrição ou entre em contato com a organização.");
+          Swal.fire({
+            title: 'Sucesso!',
+            html: html,
+            timer: 10000,
+            timerProgressBar: true,
+            icon: 'success',
+            willClose: () => {
+              clearInterval(timerInterval)
+            }
+          }).then((result) => {
+            /* Read more about handling dismissals below */
+            if (result.dismiss === Swal.DismissReason.timer) {
+              if(!environment.production) console.log('I was closed by the timer')
+            }
+          })
+
+          this.player_registered_event_emitter.emit();
+        }else{
+          Swal.fire({
+            title: 'Erro!',
+            html: response.message,
+            icon: 'error',
+            confirmButtonText: 'Fechar'
+          });
+          return;
+        }
+      }
+    }
+  }
 
   ngOnInit(): void {
     this.setCityFromPlayer();
@@ -241,10 +345,6 @@ export class RegisterPageEventInscreverFormComponent implements OnInit {
     }
   }
 
-  onSubmit(){
-
-  }
-
   updateCountry(e:any){
     this.country_id = e.value;
 
@@ -269,5 +369,38 @@ export class RegisterPageEventInscreverFormComponent implements OnInit {
   updateClub(e:any){
     this.club_id = e.value;
   }
+
+  // updateAcceptPolicy(value:number){
+  //   this.accepts.policy = value;
+  // }
+  updateAcceptCategory(e:any){
+    if(this.accepts.category){
+      this.accepts.category = 0;
+    }else{
+      this.accepts.category = 1;
+    }
+  }
+  updateAcceptRegulation(e:any){
+    if(this.accepts.regulation){
+      this.accepts.regulation = 0;
+    }else{
+      this.accepts.regulation = 1;
+    }
+  }
+  updateAcceptPolicy(e:any){
+    if(this.accepts.policy){
+      this.accepts.policy = 0;
+    }else{
+      this.accepts.policy = 1;
+    }
+  }
+  updateAcceptImage(e:any){
+    if(this.accepts.image){
+      this.accepts.image = 0;
+    }else{
+      this.accepts.image = 1;
+    }
+  }
+
 
 }
