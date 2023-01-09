@@ -2,7 +2,7 @@ import { EventPublicPlayer } from './../../../_interfaces/event-public-player';
 import { RegisterEventPlayerController } from './../../../_controllers/register-event-player.controller';
 import { EventPublic } from './../../../_interfaces/event-public';
 import { Component, Input, OnInit } from '@angular/core';
-import { faCircleNotch, faSpinner, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faCircleNotch, faSpinner, faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { EventPublicCategory } from 'src/app/registration-module/_interfaces/event-public-category';
 
 @Component({
@@ -15,11 +15,16 @@ export class RegisterPageEventInscreverComponent implements OnInit {
   faSearching = faCircleNotch;
   faSearch = faSearch;
 
+  faNotReceiving = faTimes;
+
   constructor(private register_event_player_controller:RegisterEventPlayerController) { }
 
   @Input()
   event!:EventPublic;
   ngOnInit(): void {
+    if(!this.event.info.is_registering){
+      this.page = 'not-receiving'
+    }
   }
 
   page = 'search'
@@ -103,10 +108,6 @@ export class RegisterPageEventInscreverComponent implements OnInit {
     }
   }
 
-  async onSubmitUpdate(){
-
-  }
-
   async onPlayerRegistered(){
     this.is_register_form = false;
     this.is_searching = false;
@@ -115,5 +116,14 @@ export class RegisterPageEventInscreverComponent implements OnInit {
     this.search = '';
     this.searched = '';
     this.has_results = false;
+  }
+
+  returnToSearch(){
+    this.page = 'search'
+    this.fields = [];
+  }
+
+  onPlayerUpdated(player_id:number){
+    this.registerForm(player_id);
   }
 }

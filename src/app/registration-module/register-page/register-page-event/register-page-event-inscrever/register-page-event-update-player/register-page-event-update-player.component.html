@@ -1,0 +1,106 @@
+<div class="col-md-12">
+  <div class="card">
+    <div class="card-header">
+      Atualizar Cadastro
+    </div>
+    <div class="card-body">
+      <h4>Opa...</h4>
+      <h4>Seu cadastro necessita ser preenchido com as informações faltantes antes de prosseguirmos com a inscrição. Alguns campos podem surgir de acordo com o preenchimento.
+      </h4>
+      <h5>Todos os campos com <strong class="field-required">* e em vermelho são obrigatórios</strong>.</h5>
+      <hr />
+      <form #form="ngForm" (submit)="onSubmit()">
+        <div class="input-group mb-3" *ngIf="fields.includes('name')">
+          <label for="name" class="field-required">Nome *</label>
+          <input type="text" id="name" name="name" class="form-control" [(ngModel)]="field_values['name']" />
+        </div>
+        <div class="input-group mb-3" *ngIf="fields.includes('born')">
+          <label for="born" class="field-required">Data de Nascimento *</label>
+          <input type="text" id="born" name="born" class="form-control" [(ngModel)]="field_values['born']" mask="00/00/0000" />
+        </div>
+        <div class="form-group mb-3" *ngIf="fields.includes('email')">
+          <label for="email" class="field-required">E-mail *</label>
+          <input type="email" id="email" name="email" class="form-control" [(ngModel)]="field_values['email']" />
+        </div>
+        <div class="form-group mb-3" *ngIf="fields.includes('country_id')">
+          <label for="born_country_id" class="field-required">País de Nascimento *</label>
+          <select2 [data]="countries" [value]="this.born_country_id" name="born_country_id" class="form-control"
+            (update)="updateBornCountry($event)"> </select2>
+        </div>
+        <div *ngIf="fields.includes('documents')">
+          <h5 class="field-required">Documentos: *</h5>
+          <p *ngIf="born_country_id === 0 || document_types.length === 0">Você precisa escolher o país de nascimento antes de prosseguir com os documentos.</p>
+          <div *ngIf="born_country_id > 0 || document_types.length > 0">
+            <div class="alert alert-warning">
+              <strong>É OBRIGATÓRIO informar ao menos um documento.</strong> Além disto, poderá haver documentos que são
+              obrigatórios, porém, estes estarão identificados com <strong>*</strong>.<br />
+              <br />
+              O documento informado será <strong>utilizado a fim de Confirmação da Inscrição</strong> - Então informe
+              <strong>documento(s) válido(s)</strong> dentre os que estão listados.
+            </div>
+            <div class="form-group mb-3" *ngFor="let document_type of document_types">
+              <!-- if required field-->
+              <label for="document_type_{{document_type.id}}" class="field-required" *ngIf="document_type.is_required">{{document_type.name}} *</label>
+              <!-- if not required field -->
+              <label for="document_type_{{document_type.id}}" *ngIf="!document_type.is_required">{{document_type.name}}</label>
+
+              <input type="text" id="document_type_{{document_type.id}}"
+                      name="document_type_{{document_type.id}}" class="form-control" [(ngModel)]="field_values['documents'][document_type.id]" />
+            </div>
+          </div>
+          <hr/>
+        </div>
+        <div *ngIf="fields.includes('city_id')">
+          <label class="field-required" class="field-required">País de Vínculo *:</label>
+          <select2 [data]="countries" [value]="this.country_id" name="country_id" class="form-control"
+            (update)="updateCountry($event)"> </select2>
+
+          <label class="field-required" class="field-required">Estado/Província de Vínculo *:</label>
+          <select2 [data]="states" [value]="this.state_id" name="state_id" class="form-control"
+            (update)="updateState($event)">
+          </select2>
+
+          <label class="field-required" class="field-required">Cidade de Vínculo *:</label>
+          <select2 [data]="cities" [value]="this.city_id" name="city_id" class="form-control"
+            (update)="updateCity($event)">
+          </select2>
+        </div>
+        <div class="form-group mb-3" *ngIf="fields.includes('sex_id')">
+          <label for="sex_id" class="field-required">Sexo *</label>
+          <select2 [data]="sexes" [value]="this.sex_id" name="sex_id" class="form-control"
+            (update)="updateSex($event)"> </select2>
+        </div>
+        <div class="form-group mb-3" *ngIf="fields.includes('country_cellphone_id')">
+          <label for="country_cellphone_id" class="field-required">País do Telefone *</label>
+          <select2 [data]="countries" [value]="this.cellphone_country_id" name="country_cellphone_id" class="form-control"
+            (update)="updateCellphoneCountry($event)"> </select2>
+        </div>
+        <div class="form-group mb-3" *ngIf="fields.includes('cellphone')">
+          <label for="cellphone" class="field-required">Telefone Celular *</label>
+          <input type="text" id="cellphone" name="cellphone" class="form-control" [(ngModel)]="field_values['cellphone']" />
+        </div>
+        <div class="form-group mb-3" *ngIf="fields.includes('calculate_fide') && born_country_id > 0 && born_country_id != 33">
+          <label for="fide_id" class="field-required">ID FIDE *</label>
+          <input type="text" id="fide_id" name="fide_id" class="form-control" [(ngModel)]="field_values['fide_id']" />
+        </div>
+        <div class="form-group mb-3" *ngIf="fields.includes('calculate_fide') && born_country_id == 33">
+          <label for="fide_n_id">ID FIDE</label>
+          <input type="text" id="fide_n_id" name="fide_n_id" class="form-control" [(ngModel)]="field_values['fide_id']" />
+        </div>
+        <div class="form-group mb-3"
+          *ngIf="(fields.includes('calculate_cbx') && fields.includes('cbx_id')) || (fields.includes('calculate_fide') && fields.includes('cbx_id') && born_country_id == 33)">
+          <label for="cbx_id" class="field-required">ID CBX *</label>
+          <input type="text" id="cbx_id" name="cbx_id" class="form-control" [(ngModel)]="field_values['cbx_id']" />
+        </div>
+        <div class="form-group mb-3"
+          *ngIf="(fields.includes('calculate_fide') && fields.includes('cbx_id') && born_country_id > 0 && born_country_id != 33)">
+          <label for="cbx_n_id">ID CBX</label>
+          <input type="text" id="cbx_n_id" name="cbx_n_id" class="form-control" [(ngModel)]="field_values['cbx_id']" />
+        </div>
+
+        <button type="submit" class="btn btn-success">Atualizar Cadastro</button>
+        <button type="button" class="btn btn-warning" (click)="returnToSearch()">Cancelar e Retornar a Busca</button>
+      </form>
+    </div>
+  </div>
+</div>

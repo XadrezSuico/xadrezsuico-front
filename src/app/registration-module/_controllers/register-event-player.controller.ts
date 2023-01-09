@@ -30,4 +30,13 @@ export class RegisterEventPlayerController{
     });
     return result;
   }
+  async complete(uuid:string,player_id:number,fields:any){
+    console.log(Object.assign({},fields));
+    let url:string = `${environment.api}/v1/event/${uuid}/players/complete/${player_id}`;
+    const result = await this.http.post<RegisterRequest>(url,Object.assign({},fields)).toPromise()
+    .catch((err: HttpErrorResponse) => {
+      return this.errorHelper.catchHttpError(err);
+    });
+    return result;
+  }
 }

@@ -11,6 +11,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Select2Module } from 'ng-select2-component';
+import { IConfig, NgxMaskModule } from 'ngx-mask';
+
+export const options: Partial<null|IConfig> | (() => Partial<IConfig>) = null;
 
 @NgModule({
   declarations: [
@@ -25,7 +28,8 @@ import { Select2Module } from 'ng-select2-component';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    Select2Module
+    Select2Module,
+    NgxMaskModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

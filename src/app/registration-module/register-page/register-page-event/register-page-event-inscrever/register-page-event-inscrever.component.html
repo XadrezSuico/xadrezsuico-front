@@ -55,33 +55,31 @@
   </div>
 </div>
 <div class="row mt-2" *ngIf="page === 'update'">
+  <app-register-page-event-update-player
+  [event]="event"
+  [player]="player"
+  [fields]="fields"
+  (return_to_search_event_emitter)="returnToSearch()"
+  (player_updated_event_emitter)="onPlayerUpdated($event)"></app-register-page-event-update-player>
+</div>
+<div class="row mt-2" *ngIf="page === 'register'">
+  <app-register-page-event-inscrever-form
+  [event]="event"
+  [player]="player"
+  [categories]="categories"
+  (player_registered_event_emitter)="onPlayerRegistered()"
+  (return_to_search_event_emitter)="returnToSearch()"></app-register-page-event-inscrever-form>
+</div>
+<div class="row mt-2" *ngIf="page === 'not-receiving'">
   <div class="col-md-12">
     <div class="card">
-      <div class="card-header">
-        Atualizar Cadastro
-      </div>
       <div class="card-body">
-        <h4>Opa...</h4>
-        <h4>Seu cadastro necessita ser preenchido com as informações faltantes antes de prosseguirmos com a inscrição.</h4>
-        <hr/>
-        <form #form="ngForm" (submit)="onSubmitUpdate()">
-          <div class="input-group mb-3" *ngIf="fields.includes('name')">
-            <label for="name">Nome</label>
-            <input type="text" id="name" name="name" class="form-control" [(ngModel)]="field_values['name']" />
-          </div>
-          <div class="input-group mb-3" *ngIf="fields.includes('born')">
-            <label for="born">Data de Nascimento</label>
-            <input type="text" id="born" name="born" class="form-control" [(ngModel)]="field_values['born']" />
-          </div>
-          <div class="form-group mb-3" *ngIf="fields.includes('email')">
-            <label for="email">E-mail</label>
-            <input type="text" id="email" name="email" class="form-control" [(ngModel)]="field_values['email']" />
-          </div>
-        </form>
+        <div class="error">
+          <fa-icon [icon]="faNotReceiving"></fa-icon>
+          <h3>Ooops! Inscrições encerradas!</h3>
+          <p *ngIf="event.info.registering_status">{{event.info.registering_status}}</p>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<div class="row mt-2" *ngIf="page === 'register'">
-  <app-register-page-event-inscrever-form [event]="event" [player]="player" [categories]="categories" (player_registered_event_emitter)="onPlayerRegistered()"></app-register-page-event-inscrever-form>
 </div>

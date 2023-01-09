@@ -1,3 +1,4 @@
+import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import { EventPublicClub } from './../../../../_interfaces/event-public-club';
 import { RegisterEventClubController } from './../../../../_controllers/register-event-club.controller';
 import { EventPublicCity } from './../../../../_interfaces/event-public-city';
@@ -22,6 +23,8 @@ import { environment } from 'src/environments/environment';
 })
 export class RegisterPageEventInscreverFormComponent implements OnInit {
 
+  faSpin = faSyncAlt;
+
   form_started = false;
   constructor(
     private register_event_controller:RegisterEventController,
@@ -41,6 +44,11 @@ export class RegisterPageEventInscreverFormComponent implements OnInit {
 
   @Output()
   player_registered_event_emitter:EventEmitter<void> = new EventEmitter<void>();
+
+  @Output()
+  return_to_search_event_emitter:EventEmitter<void> = new EventEmitter<void>();
+
+  is_requesting:boolean = false;
 
   category_id!:number;
   categories_list:Array<Select2Option> = [];
@@ -64,6 +72,7 @@ export class RegisterPageEventInscreverFormComponent implements OnInit {
   };
 
   async onSubmit(){
+    this.is_requesting = true;
     if(this.event){
       if(this.event.uuid){
         if(!(this.category_id > 0)){
@@ -151,6 +160,7 @@ export class RegisterPageEventInscreverFormComponent implements OnInit {
         }
       }
     }
+    this.is_requesting = false;
   }
 
   ngOnInit(): void {
@@ -402,5 +412,8 @@ export class RegisterPageEventInscreverFormComponent implements OnInit {
     }
   }
 
+  returnToSearch(){
+    this.return_to_search_event_emitter.emit();
+  }
 
 }

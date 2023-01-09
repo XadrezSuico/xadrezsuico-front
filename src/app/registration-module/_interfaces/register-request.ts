@@ -1,3 +1,4 @@
+import { EventPublicDocumentType } from './event-public-document-type';
 import { EventPublicClub } from './event-public-club';
 import { EventPublicCity } from './event-public-city';
 import { EventPublicPlayer } from './event-public-player';
@@ -5,6 +6,7 @@ import { EventPublic } from './event-public';
 import { EventPublicCategory } from './event-public-category';
 import { EventPublicCountry } from './event-public-country';
 import { EventPublicState } from './event-public-state';
+import { EventPublicSex } from './event-public-sex';
 export interface RegisterRequest{
   ok:number;
   error:number;
@@ -28,6 +30,12 @@ export interface RegisterRequest{
 
   clubs?:Array<EventPublicClub>;
   club?:EventPublicClub;
+
+  sexes?:Array<EventPublicSex>;
+  sex?:EventPublicSex;
+
+  document_types?:Array<EventPublicDocumentType>;
+  document_type?:EventPublicDocumentType;
 
   httpcode?:number;
   result?:boolean;

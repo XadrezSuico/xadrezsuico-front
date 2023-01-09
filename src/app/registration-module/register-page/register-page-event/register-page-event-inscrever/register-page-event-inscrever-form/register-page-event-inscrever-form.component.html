@@ -1,3 +1,7 @@
+<div class="requesting-overlay" *ngIf="is_requesting">
+  <i class="fas fa-5x fa-sync-alt fa-spin" aria-hidden="true"></i>
+  <fa-icon [icon]="faSpin" size="5x" [spin]="true"></fa-icon>
+</div>
 <div class="col-md-12">
   <div class="card">
     <div class="card-header">
@@ -75,6 +79,7 @@
           </label><br />
 
         <button type="submit" class="btn btn-success mt-3">Enviar Inscrição</button>
+        <button type="button" class="btn btn-warning mt-3" (click)="returnToSearch()">Retornar a Busca</button>
       </form>
     </div>
   </div>

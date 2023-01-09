@@ -9,4 +9,7 @@ export interface EventPublicInfo{
   city:string;
   time_control:string;
   timeline?:Array<EventPublicInfoTime>;
+
+  is_registering:boolean;
+  registering_status:string;
 }

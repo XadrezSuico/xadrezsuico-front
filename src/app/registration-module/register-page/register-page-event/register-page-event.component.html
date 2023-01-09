@@ -11,37 +11,37 @@
         </div>
         <div class="event-actions mt-2">
           <ul ngbNav #nav="ngbNav" [(activeId)]="page_active" class="nav-pills">
-            <li ngbNavItem [ngbNavItem]="'home'">
+            <li ngbNavItem [ngbNavItem]="'home'" *ngIf="event.tabs.includes('home')">
               <a ngbNavLink>Home</a>
               <ng-template ngbNavContent>
                 <app-register-page-event-home [event]="event"></app-register-page-event-home>
               </ng-template>
             </li>
-            <li ngbNavItem [ngbNavItem]="'register'">
+            <li ngbNavItem [ngbNavItem]="'register'" *ngIf="event.tabs.includes('register')">
               <a ngbNavLink active>Inscreva-se</a>
               <ng-template ngbNavContent>
                 <app-register-page-event-inscrever [event]="event"></app-register-page-event-inscrever>
               </ng-template>
             </li>
-            <li ngbNavItem *ngIf="false">
+            <li ngbNavItem  *ngIf="event.tabs.includes('players')">
               <a ngbNavLink>Inscritos</a>
               <ng-template ngbNavContent>
                 Inscritos
               </ng-template>
             </li>
-            <li ngbNavItem *ngIf="false">
+            <li ngbNavItem *ngIf="event.tabs.includes('pairings')">
               <a ngbNavLink>Emparceiramentos</a>
               <ng-template ngbNavContent>
                 Emparceiramentos
               </ng-template>
             </li>
-            <li ngbNavItem *ngIf="false">
+            <li ngbNavItem *ngIf="event.tabs.includes('how-to-get')">
               <a ngbNavLink>Como Chegar</a>
               <ng-template ngbNavContent>
                 Como Chegar
               </ng-template>
             </li>
-            <li ngbNavItem *ngIf="false">
+            <li ngbNavItem *ngIf="event.tabs.includes('results')">
               <a ngbNavLink>Resultados</a>
               <ng-template ngbNavContent>
                 Resultados

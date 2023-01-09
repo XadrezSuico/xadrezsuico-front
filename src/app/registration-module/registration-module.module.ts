@@ -13,6 +13,7 @@ import { RegisterPageEventInscreverComponent } from './register-page/register-pa
 import { RegisterPageEventInscreverFormComponent } from './register-page/register-page-event/register-page-event-inscrever/register-page-event-inscrever-form/register-page-event-inscrever-form.component';
 
 import { Select2Module } from 'ng-select2-component';
+import { RegisterPageEventUpdatePlayerComponent } from './register-page/register-page-event/register-page-event-inscrever/register-page-event-update-player/register-page-event-update-player.component';
 
 @NgModule({
   imports: [
@@ -31,7 +32,8 @@ import { Select2Module } from 'ng-select2-component';
     RegisterNotFoundComponent,
     RegisterPageEventHomeComponent,
     RegisterPageEventInscreverComponent,
-    RegisterPageEventInscreverFormComponent
+    RegisterPageEventInscreverFormComponent,
+    RegisterPageEventUpdatePlayerComponent
   ],
   exports:[RegistrationModuleComponent]
 })
