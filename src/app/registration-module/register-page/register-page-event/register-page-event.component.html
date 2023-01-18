@@ -26,7 +26,7 @@
             <li ngbNavItem  *ngIf="event.tabs.includes('players')">
               <a ngbNavLink>Inscritos</a>
               <ng-template ngbNavContent>
-                Inscritos
+                <app-register-page-event-registration-list [event]="event"></app-register-page-event-registration-list>
               </ng-template>
             </li>
             <li ngbNavItem *ngIf="event.tabs.includes('pairings')">

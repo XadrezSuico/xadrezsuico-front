@@ -128,25 +128,46 @@ export class RegisterPageEventInscreverFormComponent implements OnInit {
         // }
         if(response.ok){
           let timerInterval:number;
-          let html = "<strong>Sua inscrição foi efetuada com sucesso!</strong><hr/>";
-          html = html.concat("Você receberá em no máximo 30 minutos uma mensagem no endereço de e-mail do cadastro com a confirmação da inscrição para este evento.<hr/>");
-          html = html.concat("Caso não receba o e-mail, confira na lista de inscritos (Acessível no topo desta página em 'Visualizar Lista de Inscrições') e verifique se lá consta o nome do(a) enxadrista em questão.");
-          html = html.concat("Caso não apareça, tente novamente o processo de inscrição ou entre em contato com a organização.");
-          Swal.fire({
-            title: 'Sucesso!',
-            html: html,
-            timer: 10000,
-            timerProgressBar: true,
-            icon: 'success',
-            willClose: () => {
-              clearInterval(timerInterval)
-            }
-          }).then((result) => {
-            /* Read more about handling dismissals below */
-            if (result.dismiss === Swal.DismissReason.timer) {
-              if(!environment.production) console.log('I was closed by the timer')
-            }
-          })
+          if(response.response){
+            let html = "<strong>Sua inscrição foi recebida!</strong><hr/>";
+            html = html.concat("Você receberá em no máximo 30 minutos uma mensagem no endereço de e-mail do cadastro com a confirmação do recebimento da inscrição para este evento.<hr/>");
+            html = html.concat("A categoria que você se inscreveu possui pagamento, e com isso é necessário prosseguir com o pagamento clicando no botão abaixo:");
+            html = html.concat("<a href='").concat(response.link).concat("' class='btn btn-success btn-lg btn-block' target='_blank'>Efetue o pagamento da sua inscrição.</a>");
+            Swal.fire({
+              title: 'Sucesso!',
+              html: html,
+              timerProgressBar: true,
+              icon: 'success',
+              willClose: () => {
+                clearInterval(timerInterval)
+              }
+            }).then((result) => {
+              /* Read more about handling dismissals below */
+              if (result.dismiss === Swal.DismissReason.timer) {
+                if(!environment.production) console.log('I was closed by the timer')
+              }
+            })
+          }else{
+            let html = "<strong>Sua inscrição foi efetuada com sucesso!</strong><hr/>";
+            html = html.concat("Você receberá em no máximo 30 minutos uma mensagem no endereço de e-mail do cadastro com a confirmação da inscrição para este evento.<hr/>");
+            html = html.concat("Caso não receba o e-mail, confira na lista de inscritos (Acessível no topo desta página em 'Visualizar Lista de Inscrições') e verifique se lá consta o nome do(a) enxadrista em questão.");
+            html = html.concat("Caso não apareça, tente novamente o processo de inscrição ou entre em contato com a organização.");
+            Swal.fire({
+              title: 'Sucesso!',
+              html: html,
+              timer: 10000,
+              timerProgressBar: true,
+              icon: 'success',
+              willClose: () => {
+                clearInterval(timerInterval)
+              }
+            }).then((result) => {
+              /* Read more about handling dismissals below */
+              if (result.dismiss === Swal.DismissReason.timer) {
+                if(!environment.production) console.log('I was closed by the timer')
+              }
+            })
+          }
 
           this.player_registered_event_emitter.emit();
         }else{
@@ -172,19 +193,21 @@ export class RegisterPageEventInscreverFormComponent implements OnInit {
   }
 
   async setCityFromPlayer(){
-    if(this.player.city.state){
-      if(this.player.city.state.country){
-        await this.listCountries(()=>{ console.log(this.countries.length) });
+    if(this.player.city){
+      if(this.player.city.state){
+        if(this.player.city.state.country){
+          await this.listCountries(()=>{ console.log(this.countries.length) });
 
-        this.country_id = this.player.city.state.country.id;
+          this.country_id = this.player.city.state.country.id;
 
-        await this.listStates();
+          await this.listStates();
 
-        this.state_id = this.player.city.state.id;
+          this.state_id = this.player.city.state.id;
 
-        await this.listCities();
+          await this.listCities();
 
-        this.city_id = this.player.city.id;
+          this.city_id = this.player.city.id;
+        }
       }
     }
 
@@ -209,11 +232,14 @@ export class RegisterPageEventInscreverFormComponent implements OnInit {
       item.value = category.id;
       item.label = category.name;
 
-      if(category.price > 0){
-        item.label = item.label.concat(" - R$ ").concat(String(category.price));
+      if(category.price){
+        if(category.price > 0){
+          item.label = item.label.concat(" - R$ ").concat(String(category.price));
+        }else{
+          item.label = item.label.concat(" - Gratuito");
+        }
       }else{
-        item.label = item.label.concat(" - Gratuito");
-
+          item.label = item.label.concat(" - Gratuito");
       }
 
       this.categories_list[this.categories_list.length] = item;

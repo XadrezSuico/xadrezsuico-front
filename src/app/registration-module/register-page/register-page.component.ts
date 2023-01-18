@@ -1,3 +1,4 @@
+import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import { RegisterRequest } from './../_interfaces/register-request';
 import { EventPublic } from './../_interfaces/event-public';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
@@ -10,6 +11,9 @@ import { RegisterEventController } from '../_controllers/register-event.controll
   styleUrls: ['./register-page.component.css']
 })
 export class RegisterPageComponent implements OnInit, AfterViewInit {
+
+  faSpin = faSyncAlt;
+  is_requesting = true;
 
   constructor(private register_event_controller:RegisterEventController, private route: ActivatedRoute) { }
 
@@ -50,7 +54,13 @@ export class RegisterPageComponent implements OnInit, AfterViewInit {
     }else{
       this.is_error = true;
     }
+    this.setIsRequesting(false,400);
     this.is_event_request = false;
   }
 
+  setIsRequesting(value:boolean,time:number){
+    setTimeout(()=>{
+      this.is_requesting = value;
+    },time);
+  }
 }

@@ -2,7 +2,7 @@ import { EventPublicPlayer } from './../../../_interfaces/event-public-player';
 import { RegisterEventPlayerController } from './../../../_controllers/register-event-player.controller';
 import { EventPublic } from './../../../_interfaces/event-public';
 import { Component, Input, OnInit } from '@angular/core';
-import { faCircleNotch, faSpinner, faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faCircleNotch, faSpinner, faSearch, faTimes, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import { EventPublicCategory } from 'src/app/registration-module/_interfaces/event-public-category';
 
 @Component({
@@ -11,7 +11,9 @@ import { EventPublicCategory } from 'src/app/registration-module/_interfaces/eve
   styleUrls: ['./register-page-event-inscrever.component.scss']
 })
 export class RegisterPageEventInscreverComponent implements OnInit {
+  is_requesting = false;
 
+  faSpin = faSyncAlt;
   faSearching = faCircleNotch;
   faSearch = faSearch;
 
@@ -82,6 +84,7 @@ export class RegisterPageEventInscreverComponent implements OnInit {
   }
 
   async registerForm(player_id:number){
+    this.is_requesting = true;
     if(this.event){
       if(this.event.uuid){
         let response = await this.register_event_player_controller.get(this.event.uuid,player_id);
@@ -106,6 +109,7 @@ export class RegisterPageEventInscreverComponent implements OnInit {
         }
       }
     }
+    this.is_requesting = false;
   }
 
   async onPlayerRegistered(){

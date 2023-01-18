@@ -3,7 +3,7 @@ import { EventPublic } from './../../_interfaces/event-public';
 import { RegisterEventController } from './../../_controllers/register-event.controller';
 import { Component, Input, OnInit } from '@angular/core';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
-import { faDollarSign, faMapMarkerAlt, faStopwatch } from '@fortawesome/free-solid-svg-icons';
+import { faDollarSign, faMapMarkerAlt, faStopwatch, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
 
@@ -17,6 +17,9 @@ export class RegisterPageEventComponent implements OnInit {
   faCalendar = faCalendar;
   faMapPin = faMapMarkerAlt;
   faClock = faStopwatch;
+  faSpin = faSyncAlt;
+
+  is_requesting = true;
   constructor(private register_event_controller:RegisterEventController, private route: ActivatedRoute) { }
 
   uuid:string = "";

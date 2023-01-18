@@ -1,3 +1,7 @@
+<div class="requesting-overlay" *ngIf="is_requesting">
+  <i class="fas fa-5x fa-sync-alt fa-spin" aria-hidden="true"></i>
+  <fa-icon [icon]="faSpin" size="5x" [spin]="true"></fa-icon>
+</div>
 <div class="row mt-2" *ngIf="page === 'search'">
   <div class="col-md-12">
     <div class="card">

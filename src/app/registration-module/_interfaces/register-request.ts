@@ -7,6 +7,7 @@ import { EventPublicCategory } from './event-public-category';
 import { EventPublicCountry } from './event-public-country';
 import { EventPublicState } from './event-public-state';
 import { EventPublicSex } from './event-public-sex';
+import { EventPublicRegistration } from './event-public-registration';
 export interface RegisterRequest{
   ok:number;
   error:number;
@@ -37,6 +38,11 @@ export interface RegisterRequest{
   document_types?:Array<EventPublicDocumentType>;
   document_type?:EventPublicDocumentType;
 
+  registrations?:Array<EventPublicRegistration>;
+  registration?:EventPublicRegistration;
+
   httpcode?:number;
   result?:boolean;
+  response?:boolean;
+  link?:string;
 }

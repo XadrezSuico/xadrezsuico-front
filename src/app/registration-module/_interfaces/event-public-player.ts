@@ -4,17 +4,18 @@ export interface EventPublicPlayer{
   id:number;
   name:string;
   birthday:string;
+  city_name:string;
+  club_name?:string;
+
+  city?:EventPublicCity;
+  club?:EventPublicClub;
+
   fide_id?:number;
   cbx_id?:number;
   lbx_id?:number;
   chesscom_username?:string;
   lichess_username?:string;
-  city_name:string;
-  club_name?:string;
 
-  city:EventPublicCity;
-  club?:EventPublicClub;
-
-  can_register:boolean;
-  register_status:boolean;
+  can_register?:boolean;
+  register_status?:boolean;
 }

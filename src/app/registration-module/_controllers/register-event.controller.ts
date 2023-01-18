@@ -59,4 +59,13 @@ export class RegisterEventController{
     });
     return result;
   }
+
+  async registration_list(uuid:string){
+    let url:string = `${environment.api}/v1/event/register/list/${uuid}`;
+    const result = await this.http.get<RegisterRequest>(url).toPromise()
+    .catch((err: HttpErrorResponse) => {
+      return this.errorHelper.catchHttpError(err);
+    });
+    return result;
+  }
 }
