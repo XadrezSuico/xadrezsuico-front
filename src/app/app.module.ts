@@ -13,6 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Select2Module } from 'ng-select2-component';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { PageModuleModule } from './page-module/page-module.module';
+import { PlayerModule } from './player/player.module';
 
 export const options: Partial<null|IConfig> | (() => Partial<IConfig>) = null;
 
@@ -32,6 +33,7 @@ export const options: Partial<null|IConfig> | (() => Partial<IConfig>) = null;
     Select2Module,
     NgxMaskModule.forRoot(),
     PageModuleModule,
+    PlayerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

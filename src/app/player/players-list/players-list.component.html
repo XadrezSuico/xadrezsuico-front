@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="row mt-2">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <h4>Efetue sua pesquisa digitando o ID, nome ou documento do(a) enxadrista:</h4>
+          <form #form="ngForm" (submit)="onSubmit()">
+            <div class="input-group mb-3">
+              <input type="text" name="search" class="form-control" [(ngModel)]="search" />
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">
+                  <fa-icon [icon]="faSearch"></fa-icon> Pesquisar
+                </button>
+              </div>
+            </div>
+          </form>
+          <p class="text-center"><small>Caso o(a) enxadrista não possua cadastro, <a [routerLink]="['/registration']">acesse esta página</a> e
+              efetue.</small></p>
+          <div *ngIf="is_searching" class="text-center">
+            <fa-icon [icon]="faSearching" size="4x" [spin]="true" class="default-icon-color"></fa-icon>
+          </div>
+          <div *ngIf="has_results">
+            <hr />
+            <h3>Resultados da Pesquisa por '{{query}}':</h3>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nome</th>
+                  <th>Nascimento</th>
+                  <th>ID FIDE</th>
+                  <th>ID CBX</th>
+                  <th>ID LBX</th>
+                  <th>Cidade</th>
+                  <th>Clube</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let player of players">
+                  <td>{{player.id}}</td>
+                  <td>{{player.name}}</td>
+                  <td>{{player.birthday}}</td>
+                  <td>{{player.fide_id}}</td>
+                  <td>{{player.cbx_id}}</td>
+                  <td>{{player.lbx_id}}</td>
+                  <td>{{player.city_name}}</td>
+                  <td>{{player.club_name}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

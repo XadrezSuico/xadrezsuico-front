@@ -52,7 +52,7 @@ export class RegisterPageEventInscreverComponent implements OnInit {
       this.doSearch();
       console.log(this.event);
     }else{
-      alert(1)
+      // alert(1)
     }
   }
 
