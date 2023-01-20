@@ -1,0 +1,16 @@
+<div class="requesting-overlay" *ngIf="is_requesting">
+  <i class="fas fa-5x fa-sync-alt fa-spin" aria-hidden="true"></i>
+  <fa-icon [icon]="faSpin" size="5x" [spin]="true"></fa-icon>
+</div>
+<div class="container mt-2">
+  <div class="page" *ngIf="tab === 'page' && request">
+    <h1>{{request.page?.title}}</h1>
+    <div [innerHTML]="request.page?.text"></div>
+  </div>
+  <div class="error" *ngIf="tab === 'error'">
+    <app-page-error [request]="request"></app-page-error>
+  </div>
+  <div class="not-found" *ngIf="tab === '404'">
+    <app-page-not-found></app-page-not-found>
+  </div>
+</div>

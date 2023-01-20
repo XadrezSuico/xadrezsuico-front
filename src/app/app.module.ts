@@ -12,14 +12,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Select2Module } from 'ng-select2-component';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
+import { PageModuleModule } from './page-module/page-module.module';
 
 export const options: Partial<null|IConfig> | (() => Partial<IConfig>) = null;
 
 @NgModule({
   declarations: [
     AppComponent,
-      TopbarComponent
-   ],
+    TopbarComponent
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -30,6 +31,7 @@ export const options: Partial<null|IConfig> | (() => Partial<IConfig>) = null;
     FormsModule,
     Select2Module,
     NgxMaskModule.forRoot(),
+    PageModuleModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -192,26 +192,43 @@ export class RegisterPageEventInscreverFormComponent implements OnInit {
     this.parseCategoriesToSelect2();
   }
 
-  async setCityFromPlayer(){
+  checkIfPlayerCityIsntNull(){
     if(this.player.city){
       if(this.player.city.state){
         if(this.player.city.state.country){
-          await this.listCountries(()=>{ console.log(this.countries.length) });
-
-          this.country_id = this.player.city.state.country.id;
-
-          await this.listStates();
-
-          this.state_id = this.player.city.state.id;
-
-          await this.listCities();
-
-          this.city_id = this.player.city.id;
+          return true;
+        }else{
+          return false;
         }
+      }else{
+        return false;
       }
+    }else{
+      return false;
+    }
+  }
+
+  async setCityFromPlayer(){
+    if(this.checkIfPlayerCityIsntNull()){
+      this.listCountries(()=>{
+        this.country_id = (this.player.city?.state?.country?.id) ? this.player.city?.state?.country?.id : 0;
+
+        this.listStates(()=>{
+          this.state_id = (this.player.city?.state?.id) ? this.player.city?.state?.id : 0;
+
+          this.listCities(()=>{
+            this.city_id = (this.player.city?.id) ? this.player.city?.id : 0;
+            this.form_started = true;
+          });
+
+        });
+
+      });
+
+    }else{
+      this.form_started = true;
     }
 
-    this.form_started = true;
   }
 
   async setClubFromPlayer(){
@@ -256,7 +273,9 @@ export class RegisterPageEventInscreverFormComponent implements OnInit {
       await this.parseCountriesToSelect2(response.countries);
 
       if(callback){
-        callback();
+        setTimeout(()=>{
+          callback();
+        },100);
       }
     }
   }
@@ -285,7 +304,9 @@ export class RegisterPageEventInscreverFormComponent implements OnInit {
       await this.parseStatesToSelect2(response.states);
 
       if(callback){
-        callback();
+        setTimeout(()=>{
+          callback();
+        },100);
       }
     }
   }
@@ -315,7 +336,9 @@ export class RegisterPageEventInscreverFormComponent implements OnInit {
       await this.parseCitiesToSelect2(response.cities);
 
       if(callback){
-        callback();
+        setTimeout(()=>{
+          callback();
+        },100);
       }
     }
   }
