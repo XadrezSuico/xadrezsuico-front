@@ -15,6 +15,7 @@ import { RegisterPageEventInscreverFormComponent } from './register-page/registe
 import { Select2Module } from 'ng-select2-component';
 import { RegisterPageEventUpdatePlayerComponent } from './register-page/register-page-event/register-page-event-inscrever/register-page-event-update-player/register-page-event-update-player.component';
 import { RegisterPageEventRegistrationListComponent } from './register-page/register-page-event/register-page-event-registration-list/register-page-event-registration-list.component';
+import { NgxMaskModule } from 'ngx-mask';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { RegisterPageEventRegistrationListComponent } from './register-page/regi
     NgbNavModule,
     ReactiveFormsModule,
     FormsModule,
-    Select2Module
+    Select2Module,
+    NgxMaskModule.forChild(),
   ],
   declarations: [
     RegistrationModuleComponent,

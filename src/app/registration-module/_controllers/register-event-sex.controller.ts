@@ -15,7 +15,7 @@ export class RegisterEventSexController{
 
 
   async list(){
-    let url:string = `${environment.api}/v1/event/sex/list`;
+    let url:string = `${environment.api}/v1/sexes/list`;
     const result = await this.http.get<RegisterRequest>(url).toPromise()
     .catch((err: HttpErrorResponse) => {
       return this.errorHelper.catchHttpError(err);

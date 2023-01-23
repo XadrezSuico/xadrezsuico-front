@@ -1,7 +1,7 @@
-import { PlayerController } from './_controllers/player.controller';
+import { PlayerController } from '../_controllers/player.controller';
 import { Component, OnInit } from '@angular/core';
 import { faCircleNotch, faSearch } from '@fortawesome/free-solid-svg-icons';
-import { Player } from './_interfaces/player';
+import { Player } from '../_interfaces/player';
 
 @Component({
   templateUrl: './players-list.component.html',

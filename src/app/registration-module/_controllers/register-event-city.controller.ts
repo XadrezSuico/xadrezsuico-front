@@ -15,7 +15,7 @@ export class RegisterEventCityController{
 
 
   async list(state_id:number){
-    let url:string = `${environment.api}/v1/event/cities/city/list/${state_id}`;
+    let url:string = `${environment.api}/v1/location/city/list/${state_id}`;
     const result = await this.http.get<RegisterRequest>(url).toPromise()
     .catch((err: HttpErrorResponse) => {
       return this.errorHelper.catchHttpError(err);
@@ -23,7 +23,7 @@ export class RegisterEventCityController{
     return result;
   }
   async get(id:number){
-    let url:string = `${environment.api}/v1/event/cities/city/get/${id}`;
+    let url:string = `${environment.api}/v1/location/city/get/${id}`;
     const result = await this.http.get<RegisterRequest>(url).toPromise()
     .catch((err: HttpErrorResponse) => {
       return this.errorHelper.catchHttpError(err);

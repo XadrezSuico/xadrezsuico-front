@@ -1,0 +1,239 @@
+<div class="requesting-overlay" *ngIf="is_requesting">
+  <i class="fas fa-5x fa-sync-alt fa-spin" aria-hidden="true"></i>
+  <fa-icon [icon]="faSpin" size="5x" [spin]="true"></fa-icon>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 mt-2">
+      <h1>Cadastro de Enxadrista</h1>
+      <p>Só preencha este formulário caso você não encontre o enxadrista na página de "<a [routerLink]="['/players']">Pesquisa de Enxadrista</a>" ou no Formulário de Inscrição.</p>
+      <hr/>
+      <p>
+        <ngb-progressbar [value]="step" [max]="6" [animated]="true" type="success" [striped]="true" height="20px"></ngb-progressbar>
+      </p>
+      <form #form="ngForm">
+        <ul ngbNav #nav="ngbNav" [(activeId)]="active" (navChange)="onNavChange($event)" class="nav-tabs">
+          <li [ngbNavItem]="1" [disabled]="true">
+            <a ngbNavLink>1 - {{tab_names[1]}}</a>
+            <ng-template ngbNavContent>
+              <div class="form-group mb-2">
+                <label for="name" class="field-required">Nome Completo *</label>
+                <input name="name" id="name" class="form-control cadastro_enxadrista_input" type="text" [(ngModel)]="field_values['name']"  />
+              </div>
+              <div class="form-group mb-2">
+                <label for="born" class="field-required">Data de Nascimento *</label>
+                <input name="born" id="born" class="form-control cadastro_enxadrista_input" type="text" [(ngModel)]="field_values['birthday']"
+                 mask="00/00/0000"  />
+              </div>
+              <div class="form-group mb-2">
+                <label for="sexos_id" class="field-required">Sexo *</label>
+                <select2 [data]="sexes" [value]="this.sex_id" name="sex_id" class="form-control"
+                  (update)="updateSex($event)"> </select2>
+
+              </div>
+              <div class="form-group mb-2">
+                <div class="form-group mb-3">
+                  <label for="born_country_id" class="field-required">País de Nascimento *</label>
+                  <select2 [data]="countries" [value]="this.born_country_id" id="born_country_id" name="born_country_id" class="form-control"
+                    (update)="updateBornCountry($event)"> </select2>
+                </div>
+              </div>
+              <hr/>
+              <button type="button" class="btn btn-success pull-right" (click)="goToPage2()">Próxima Etapa (2 - {{tab_names[2]}})</button>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="2" [disabled]="true">
+            <a ngbNavLink>2 - {{tab_names[2]}}</a>
+            <ng-template ngbNavContent>
+              <div class="alert alert-warning">
+                <strong>É OBRIGATÓRIO informar ao menos um documento.</strong> Além disto, poderá haver documentos que são obrigatórios, porém, estes estarão identificados com <strong>*</strong>.<br/>
+                <br/>
+                O documento informado será <strong>utilizado a fim de Confirmação da Inscrição</strong> - Então informe <strong>documento(s) válido(s)</strong> dentre os que estão listados.
+              </div>
+              <div id="documentos">
+                <p *ngIf="born_country_id > 0 && document_types.length === 0">Não há documentos para este país.</p>
+
+                <p *ngIf="born_country_id === 0 && document_types.length === 0">Você precisa escolher o país de nascimento antes de
+                  prosseguir com os documentos.</p>
+
+                <div *ngIf="born_country_id > 0 || document_types.length > 0">
+                  <div class="form-group mb-3" *ngFor="let document_type of document_types">
+                    <!-- if required field-->
+                    <label for="document_type_{{document_type.id}}" class="field-required"
+                      *ngIf="document_type.is_required">{{document_type.name}} *</label>
+                    <!-- if not required field -->
+                    <label for="document_type_{{document_type.id}}" *ngIf="!document_type.is_required">{{document_type.name}}</label>
+
+                    <input type="text" id="document_type_{{document_type.id}}" name="document_type_{{document_type.id}}"
+                      class="form-control" [(ngModel)]="field_values['documents'][document_type.id]" />
+                  </div>
+              </div>
+            </div>
+              <hr/>
+              <button type="button" class="btn btn-danger" (click)="backToPage1()">Voltar Etapa (1 - {{tab_names[1]}})</button>
+              <button type="button" class="btn btn-success pull-right" (click)="goToPage3()">Próxima Etapa (3 - {{tab_names[3]}})</button>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="3" [disabled]="true">
+            <a ngbNavLink>3 - {{tab_names[3]}}</a>
+            <ng-template ngbNavContent>
+              <div class="row">
+                <div class="col-md-12 mb-2">
+                  <div class="alert alert-warning" role="alert">
+                    <div class="form-group">
+                      <label for="email" class="field-required">E-mail *</label>
+                      <input name="email" id="email" class="form-control cadastro_enxadrista_input" type="text" [(ngModel)]="field_values['email']" />
+                    </div>
+                    <p><strong>IMPORTANTE!</strong> Prefira por <u>um e-mail do <strong>Gmail</strong></u>, visto que os e-mails da
+                      Microsoft (Hotmail.com, Outlook.com, Live.com e etc) possuem dificuldades para recebimento dos e-mails.</p>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="cellphone_country_id" class="field-required">País do Celular *</label>
+                    <select2 [data]="countries" [value]="this.cellphone_country_id" id="cellphone_country_id" name="cellphone_country_id"
+                      class="form-control"
+                      (update)="updateCellphoneCountry($event)"> </select2>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="cellphone" class="field-required">Celular *</label>
+                    <input name="cellphone" id="cellphone" class="form-control cadastro_enxadrista_input" type="text" [(ngModel)]="field_values['cellphone']" />
+                  </div>
+                </div>
+              </div>
+              <hr/>
+              <button type="button" class="btn btn-danger" (click)="backToPage2()">Voltar Etapa (2 - {{tab_names[2]}})</button>
+              <button type="button" class="btn btn-success pull-right" (click)="goToPage4()">Próxima Etapa (4 -
+                {{tab_names[4]}})</button></ng-template>
+          </li>
+          <li [ngbNavItem]="4" [disabled]="true">
+            <a ngbNavLink>4 - {{tab_names[4]}}</a>
+            <ng-template ngbNavContent>
+              <div class="alert alert-warning">
+                Caso o(a) enxadrista possua cadastro na CBX (Confederação Brasileira de Xadrez), FIDE (Federação Internacional de
+                Xadrez) ou então na LBX (Liga Brasileira de Xadrez) é indispensável a informação dos códigos referentes a cada
+                entidade para que seja utilizado o Rating do(a) Enxadrista para os Torneios, de acordo com cada Evento.
+              </div>
+
+              <div class="row mb-2">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="cbx_id" id="cbx_id_label">ID CBX <span id="cbx_required" style="display:none">*</span></label>
+                    <input name="cbx_id" id="cbx_id" class="form-control cadastro_enxadrista_input" type="text" [(ngModel)]="field_values['cbx_id']"/>
+                    É possível efetuar a pesquisa de ID CBX pelo site <a href="http://cbx.com.br"
+                      target="_blank">http://cbx.com.br</a> - Barra Lateral Direita - Buscar Jogadores.<br />
+                    <hr />
+                    Caso possua alguma dúvida sobre como encontrar, confira o vídeo tutorial <a href="https://youtu.be/csFzNDomNcw"
+                      target="_blank">clicando aqui</a>.
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="fide_id" id="fide_id_label">ID FIDE <span id="fide_required" style="display:none">*</span></label>
+                    <input name="fide_id" id="fide_id" class="form-control cadastro_enxadrista_input" type="text"  [(ngModel)]="field_values['fide_id']"/>
+                    É possível efetuar a pesquisa de ID FIDE pelo site <a href="http://ratings.fide.com"
+                      target="_blank">http://ratings.fide.com</a> - Search Database - Clique no nome e procure pelo campo "FIDE ID" na
+                    página.<br />
+                    <hr />
+                    Caso possua alguma dúvida sobre como encontrar, confira o vídeo tutorial <a href="https://youtu.be/14PxrkqXtiA"
+                      target="_blank">clicando aqui</a>.
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="lbx_id">ID LBX</label>
+                    <input name="lbx_id" id="lbx_id" class="form-control cadastro_enxadrista_input" type="text" [(ngModel)]="field_values['lbx_id']"/>
+                    É possível efetuar a pesquisa de ID LBX pelo site <a href="https://www.lbx.org.br/rating/"
+                      target="_blank">https://www.lbx.org.br/rating/</a> - Procure pelo título "Pesquisa Top 1000 LBX". Preencha o nome do enxadrista logo abaixo, conforme consta no campo e clique em pesquisar. Insira a informação do enxadrista da coluna "ID LBX".<br />
+                    <hr />
+                    Caso possua alguma dúvida sobre como encontrar, confira o vídeo tutorial <a href="https://youtu.be/d0a0CS8WROY"
+                      target="_blank">clicando aqui</a>.
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="lichess_username" id="lichess_username_label">Nome de Usuário - Lichess.org <span
+                        id="lichess_required" style="display:none">*</span></label>
+                    <input name="lichess_username" id="lichess_username" class="form-control cadastro_enxadrista_input" type="text"
+                        [(ngModel)]="field_values['lichess_username']" />
+                    Site da Plataforma: <a href="http://lichess.org" target="_blank">http://lichess.org</a>.<br />
+                    Tutorial para Cadastro no Lichess.org: <a href="https://youtu.be/FtXj5dHI-Mg"
+                      target="_blank">https://youtu.be/FtXj5dHI-Mg</a>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="chess_com_username" id="chess_com_username_label">Nome de Usuário - Chess.com <span
+                        id="chess_com_required" style="display:none">*</span></label>
+                    <input name="chess_com_username" id="chess_com_username" class="form-control cadastro_enxadrista_input"
+                      type="text"  [(ngModel)]="field_values['chess_com_username']" />
+                    Site da Plataforma: <a href="http://chess.com" target="_blank">http://chess.com</a>.<br />
+                    Tutorial para Cadastro no Chess.com: <a href="https://youtu.be/H9eJW1Z3qzQ"
+                      target="_blank">https://youtu.be/H9eJW1Z3qzQ</a>
+                  </div>
+                </div>
+              </div>
+              <hr/>
+              <button type="button" class="btn btn-danger" (click)="backToPage3()">Voltar Etapa (3 - {{tab_names[3]}})</button>
+              <button type="button" class="btn btn-success pull-right" (click)="goToPage5()">Próxima Etapa (5 -
+                {{tab_names[5]}})</button></ng-template>
+          </li>
+          <li [ngbNavItem]="5" [disabled]="true">
+            <a ngbNavLink>5 - {{tab_names[5]}}</a>
+            <ng-template ngbNavContent>
+              <div class="form-group mb-2">
+                <label for="country_id" class="field-required">País do Vínculo *</label>
+                <select2 [data]="countries" [value]="this.country_id" id="country_id" name="country_id"
+                  class="form-control"
+                  (update)="updateCountry($event)"> </select2>
+              </div>
+              <div class="form-group mb-2">
+                <label for="state_id" class="field-required">Estado do Vínculo *</label>
+                <select2 [data]="states" [value]="this.state_id" id="state_id" name="state_id"
+                  class="form-control"
+                  (update)="updateState($event)"> </select2>
+              </div>
+              <div class="form-group mb-2">
+                <label for="city_id" class="field-required">Cidade do Vínculo *</label>
+                <select2 [data]="cities" [value]="this.city_id" id="city_id" name="city_id"
+                  class="form-control"
+                  (update)="updateCity($event)"> </select2>
+              </div>
+              <div class="form-group mb-2">
+                <label for="club_id">Clube/Instituição/Escola</label>
+                <select2
+                  [data]="clubs"
+                  [value]="this.club_id"
+                  minCountForSearch="0"
+                  [customSearchEnabled]="true"
+                  styleMode="default"
+                  noResultMessage="Nenhum clube encontrado."
+                  name="club_id"
+                  class="form-control"
+                  (update)="updateClub($event)"
+                  (search)="searchClubs($event)"> </select2>
+              </div>
+                <div class="form-group mb-2">
+                    <label class="field-required">
+                      <input type="checkbox" name="xadrezsuico_accept" [value]="accepts.policy" (change)="updateAcceptPolicy($event)"> Eu
+                      aceito o <a href="/page/termosdeuso" target="_blank">termo de uso</a> e a <a href="/page/politicadeprivacidade"
+                        target="_blank">política de privacidade</a> da Plataforma de Gerenciamento de Circuitos de Xadrez - XadrezSuíço.
+                    </label><br />
+              </div>
+              <hr/>
+              <button type="button" class="btn btn-danger" (click)="backToPage4()">Voltar Etapa (4 - {{tab_names[4]}})</button>
+              <button type="button" class="btn btn-success pull-right">Efetuar Cadastro</button>
+            </ng-template>
+          </li>
+        </ul>
+      </form>
+
+      <div [ngbNavOutlet]="nav" class="mt-2"></div>
+
+    </div>
+  </div>
+</div>
