@@ -16,6 +16,7 @@ import { EventPublicPlayer } from 'src/app/registration-module/_interfaces/event
 import { EventPublicState } from 'src/app/registration-module/_interfaces/event-public-state';
 import Swal from 'sweetalert2';
 import { environment } from 'src/environments/environment';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-register-page-event-update-player',
@@ -31,7 +32,9 @@ export class RegisterPageEventUpdatePlayerComponent implements OnInit, AfterView
     private register_event_city_controller:RegisterEventCityController,
     private register_event_sex_controller:RegisterEventSexController,
     private register_event_document_type_controller:RegisterEventDocumentTypeController,
-    private register_event_player_controller:RegisterEventPlayerController
+    private register_event_player_controller:RegisterEventPlayerController,
+
+    private modalService: NgbModal
   ) { }
   ngAfterViewInit(): void {
 
@@ -314,4 +317,39 @@ export class RegisterPageEventUpdatePlayerComponent implements OnInit, AfterView
   }
 
 
+  modal_city_ref:any = null;
+  openNewCityModal(content:any){
+		this.modal_city_ref = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'xl' });
+
+    return false;
+  }
+
+  async onCitySelected(city_id:number){
+    this.modal_city_ref.close();
+
+    let response = await this.register_event_city_controller.get(city_id);
+    if(response.ok === 1){
+      this.parseCitiesToSelect2([response.city],()=>{
+        this.city_id = response.city.id;
+      });
+    }
+  }
+
+  modal_state_ref:any = null;
+  openNewStateModal(content:any){
+		this.modal_state_ref = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'xl' });
+
+    return false;
+  }
+
+  async onStateSelected(state_id:number){
+    this.modal_state_ref.close();
+
+    let response = await this.register_event_state_controller.get(state_id);
+    if(response.ok === 1){
+      this.parseStatesToSelect2([response.state],()=>{
+        this.state_id = response.state.id;
+      });
+    }
+  }
 }

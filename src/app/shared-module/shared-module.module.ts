@@ -9,6 +9,8 @@ import { NgxMaskModule } from 'ngx-mask';
 import { Select2Module } from 'ng-select2-component';
 import { RouterModule } from '@angular/router';
 import { NewClubFormComponent } from './new-club-form/new-club-form.component';
+import { NewStateFormComponent } from './new-state-form/new-state-form.component';
+import { NewCityFormComponent } from './new-city-form/new-city-form.component';
 
 
 
@@ -27,11 +29,15 @@ import { NewClubFormComponent } from './new-club-form/new-club-form.component';
      ],
     declarations: [
       PlayerRegistrationComponent,
-      NewClubFormComponent
+      NewClubFormComponent,
+      NewStateFormComponent,
+      NewCityFormComponent
     ],
     exports: [
       PlayerRegistrationComponent,
-      NewClubFormComponent
+      NewClubFormComponent,
+      NewStateFormComponent,
+      NewCityFormComponent
     ]
 })
 export class SharedModule { }

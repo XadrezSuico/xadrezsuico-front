@@ -1,0 +1,32 @@
+<div class="requesting-overlay" *ngIf="is_requesting">
+  <i class="fas fa-5x fa-sync-alt fa-spin" aria-hidden="true"></i>
+  <fa-icon [icon]="faSpin" size="5x" [spin]="true"></fa-icon>
+</div>
+<div class="container">
+  <div class="row mt-2">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          Novo Estado/Província
+        </div>
+        <div class="card-body">
+          <form #form="ngForm" (submit)="onSubmit()">
+            <label class="field-required mt-2">País da Cidade *:</label>
+            <select2 [data]="countries" [value]="this.country_id" name="country_id" class="form-control"
+              (update)="updateCountry($event)"> </select2>
+
+            <label class="field-required mt-2">Estado/Província da Cidade *:</label>
+            <select2 [data]="states" [value]="this.state_id" name="state_id" class="form-control"
+              (update)="updateState($event)">
+            </select2>
+
+            <label for="name" class="field-required mt-2">Nome da Cidade *</label>
+            <input type="name" id="name" name="name" class="form-control" [(ngModel)]="field_values['name']" />
+
+            <button type="submit" class="btn btn-success mt-2">Cadastrar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

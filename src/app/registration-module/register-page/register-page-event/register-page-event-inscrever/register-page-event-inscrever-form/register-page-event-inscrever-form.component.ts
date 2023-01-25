@@ -479,20 +479,56 @@ export class RegisterPageEventInscreverFormComponent implements OnInit {
     this.return_to_search_event_emitter.emit();
   }
 
-  modal_ref:any = null;
+  modal_club_ref:any = null;
   openNewClubModal(content:any){
-		this.modal_ref = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'xl' });
+		this.modal_club_ref = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'xl' });
 
     return false;
   }
 
   async onClubSelected(club_id:number){
-    this.modal_ref.close();
+    this.modal_club_ref.close();
 
     let response = await this.register_event_club_controller.get(club_id);
     if(response.ok === 1){
       this.parseClubsToSelect2([response.club],()=>{
         this.club_id = response.club.id;
+      });
+    }
+  }
+
+  modal_city_ref:any = null;
+  openNewCityModal(content:any){
+		this.modal_city_ref = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'xl' });
+
+    return false;
+  }
+
+  async onCitySelected(city_id:number){
+    this.modal_city_ref.close();
+
+    let response = await this.register_event_city_controller.get(city_id);
+    if(response.ok === 1){
+      this.parseCitiesToSelect2([response.city],()=>{
+        this.city_id = response.city.id;
+      });
+    }
+  }
+
+  modal_state_ref:any = null;
+  openNewStateModal(content:any){
+		this.modal_state_ref = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'xl' });
+
+    return false;
+  }
+
+  async onStateSelected(state_id:number){
+    this.modal_state_ref.close();
+
+    let response = await this.register_event_state_controller.get(state_id);
+    if(response.ok === 1){
+      this.parseStatesToSelect2([response.state],()=>{
+        this.state_id = response.state.id;
       });
     }
   }

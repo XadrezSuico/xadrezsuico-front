@@ -30,4 +30,12 @@ export class CityController{
     });
     return result;
   }
+  async new(fields:any){
+    let url:string = `${environment.api}/v1/location/city/new`;
+    const result = await this.http.post<XadrezSuicoRequest>(url,Object.assign({}, fields)).toPromise()
+    .catch((err: HttpErrorResponse) => {
+      return this.errorHelper.catchHttpError(err);
+    });
+    return result;
+  }
 }

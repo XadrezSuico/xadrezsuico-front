@@ -8,6 +8,26 @@
     </app-new-club-form>
   </div>
 </ng-template>
+<ng-template #newCityModelContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Nova Cidade</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <app-new-city-form (city_selected_event_emmiter)="onCitySelected($event)" [is_a_sub_component]="true" [input_country_id]="country_id" [input_state_id]="state_id">
+    </app-new-city-form>
+  </div>
+</ng-template>
+<ng-template #newStateModelContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Novo Estado/Província</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <app-new-state-form (state_selected_event_emmiter)="onStateSelected($event)" [is_a_sub_component]="true" [input_country_id]="country_id" [input_state_id]="state_id">
+    </app-new-state-form>
+  </div>
+</ng-template>
 <div class="requesting-overlay" *ngIf="is_requesting">
   <i class="fas fa-5x fa-sync-alt fa-spin" aria-hidden="true"></i>
   <fa-icon [icon]="faSpin" size="5x" [spin]="true"></fa-icon>
@@ -52,6 +72,8 @@
         name="state_id"
         class="form-control"
         (update)="updateState($event)"> </select2>
+        <p *ngIf="country_id > 0 && country_id !== 33">Caso seu estado não apareça na busca, você pode cadastrá-lo clicando <a
+            href="#" (click)="openNewStateModal(newStateModelContent)">aqui</a>.</p>
 
         <label class="field-required">Cidade:</label>
         <select2
@@ -60,6 +82,7 @@
         name="city_id"
         class="form-control"
         (update)="updateCity($event)"> </select2>
+        <p *ngIf="country_id > 0 && country_id !== 33">Caso sua cidade não apareça na busca, você pode cadastrá-lo clicando <a href="#" (click)="openNewCityModal(newCityModelContent)">aqui</a>.</p>
 
         <label>Clube:</label>
         <select2
