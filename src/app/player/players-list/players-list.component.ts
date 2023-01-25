@@ -2,6 +2,7 @@ import { PlayerController } from '../_controllers/player.controller';
 import { Component, OnInit } from '@angular/core';
 import { faCircleNotch, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Player } from '../_interfaces/player';
+import { XadrezSuicoTitleService } from 'src/app/_services/title.service';
 
 @Component({
   templateUrl: './players-list.component.html',
@@ -21,7 +22,13 @@ export class PlayersListComponent implements OnInit {
 
   players:Array<Player> = [];
 
-  constructor(private player_controller:PlayerController) { }
+  constructor(
+    private player_controller:PlayerController,
+
+    private title_service:XadrezSuicoTitleService
+  ) {
+    this.title_service.setTitle("Lista de Enxadristas");
+  }
 
   ngOnInit(): void {
   }

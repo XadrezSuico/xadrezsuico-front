@@ -19,6 +19,7 @@ import { PlayerCountry } from '../_interfaces/player-country';
 import Swal from 'sweetalert2';
 import { PlayerClub } from '../_interfaces/player-club';
 import { DefaultSingleton } from 'src/app/_singleton/default';
+import { XadrezSuicoTitleService } from 'src/app/_services/title.service';
 
 @Component({
   selector: 'app-player-registration',
@@ -48,8 +49,11 @@ export class PlayerRegistrationComponent implements OnInit, OnChanges {
 
     private player_registration_controller:PlayerRegistrationController,
 
-    private modalService: NgbModal
+    private modalService: NgbModal,
+
+    private title_service:XadrezSuicoTitleService
   ) {
+    this.title_service.setTitle("Novo Cadastro de Enxadrista");
   }
   is_requesting = true;
 

@@ -3,6 +3,7 @@ import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute } from '@angular/router';
 import { PageController } from './../_controllers/page.controller';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { XadrezSuicoTitleService } from 'src/app/_services/title.service';
 
 @Component({
   templateUrl: './page.component.html',
@@ -11,7 +12,14 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 export class PageComponent implements OnInit, AfterViewInit {
 
   faSpin = faSyncAlt;
-  constructor(private page_controller:PageController, private route:ActivatedRoute) { }
+  constructor(
+    private page_controller:PageController,
+    private route:ActivatedRoute,
+
+    private title_service:XadrezSuicoTitleService
+  ) {
+
+  }
 
   uuid:string = "";
   is_requesting = true;
@@ -39,14 +47,19 @@ export class PageComponent implements OnInit, AfterViewInit {
     this.request = await this.page_controller.get(this.uuid);
     if(this.request.ok === 1){
       this.tab = 'page'
+
+      this.title_service.setTitle(this.request.page?.title);
     }else{
       if(this.request.httpcode){
         if(this.request.httpcode === 404){
+          this.title_service.setTitle("Página não encontrada");
           this.tab = '404';
         }else{
+          this.title_service.setTitle("Erro");
           this.tab = "error";
         }
       }else{
+        this.title_service.setTitle("Erro");
         this.tab = "error";
       }
     }

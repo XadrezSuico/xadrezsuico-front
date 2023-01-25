@@ -4,6 +4,7 @@ import { EventPublic } from './../_interfaces/event-public';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RegisterEventController } from '../_controllers/register-event.controller';
+import { XadrezSuicoTitleService } from 'src/app/_services/title.service';
 
 @Component({
   selector: 'app-register-page',
@@ -15,7 +16,12 @@ export class RegisterPageComponent implements OnInit, AfterViewInit {
   faSpin = faSyncAlt;
   is_requesting = true;
 
-  constructor(private register_event_controller:RegisterEventController, private route: ActivatedRoute) { }
+  constructor(
+    private register_event_controller:RegisterEventController,
+    private route: ActivatedRoute,
+
+    private title_service:XadrezSuicoTitleService
+  ) { }
 
   uuid:string = "";
 
@@ -46,12 +52,15 @@ export class RegisterPageComponent implements OnInit, AfterViewInit {
         this.is_event = true;
       }else{
         if(retorno.httpcode === 404){
+          this.title_service.setTitle("Evento não encontrado");
           this.is_404 = true;
         }else{
+          this.title_service.setTitle("Erro");
           this.is_error = true;
         }
       }
     }else{
+      this.title_service.setTitle("Erro");
       this.is_error = true;
     }
     this.setIsRequesting(false,400);

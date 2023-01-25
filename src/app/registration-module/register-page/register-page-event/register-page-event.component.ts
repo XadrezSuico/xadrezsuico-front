@@ -1,10 +1,9 @@
-import { RegisterRequest } from './../../_interfaces/register-request';
+import { XadrezSuicoTitleService } from './../../../_services/title.service';
 import { EventPublic } from './../../_interfaces/event-public';
 import { RegisterEventController } from './../../_controllers/register-event.controller';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
-import { faDollarSign, faMapMarkerAlt, faStopwatch, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
-import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { faMapMarkerAlt, faStopwatch, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -12,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './register-page-event.component.html',
   styleUrls: ['./register-page-event.component.scss']
 })
-export class RegisterPageEventComponent implements OnInit {
+export class RegisterPageEventComponent implements OnInit, AfterViewInit {
 
   faCalendar = faCalendar;
   faMapPin = faMapMarkerAlt;
@@ -20,7 +19,7 @@ export class RegisterPageEventComponent implements OnInit {
   faSpin = faSyncAlt;
 
   is_requesting = true;
-  constructor(private register_event_controller:RegisterEventController, private route: ActivatedRoute) { }
+  constructor(private register_event_controller:RegisterEventController, private route: ActivatedRoute, private title_service:XadrezSuicoTitleService) { }
 
   uuid:string = "";
 
@@ -31,6 +30,11 @@ export class RegisterPageEventComponent implements OnInit {
 
   ngOnInit() {
     this.uuid = String(this.route.snapshot.paramMap.get('uuid'));
+  }
+  ngAfterViewInit(): void {
+    if(this.event){
+      this.title_service.setTitle(this.event.info.title);
+    }
   }
 
 }
