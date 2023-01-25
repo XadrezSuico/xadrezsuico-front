@@ -1,7 +1,7 @@
 <div class="col-md-12">
   <div class="card">
     <div class="card-header">
-      Atualizar Cadastro
+      Atualizar Cadastro {{born_country_id}}
     </div>
     <div class="card-body">
       <h4>Opa...</h4>
@@ -79,21 +79,21 @@
           <label for="cellphone" class="field-required">Telefone Celular *</label>
           <input type="text" id="cellphone" name="cellphone" class="form-control" [(ngModel)]="field_values['cellphone']" />
         </div>
-        <div class="form-group mb-3" *ngIf="fields.includes('calculate_fide') && born_country_id > 0 && born_country_id != 33">
+        <div class="form-group mb-3" *ngIf="fields.includes('fide_id') && born_country_id > 0 && born_country_id !== 33 && !player.cbx_id ">
           <label for="fide_id" class="field-required">ID FIDE *</label>
           <input type="text" id="fide_id" name="fide_id" class="form-control" [(ngModel)]="field_values['fide_id']" />
         </div>
-        <div class="form-group mb-3" *ngIf="fields.includes('calculate_fide') && born_country_id == 33">
+        <div class="form-group mb-3" *ngIf="fields.includes('fide_id') && born_country_id === 33 && !player.fide_id">
           <label for="fide_n_id">ID FIDE</label>
           <input type="text" id="fide_n_id" name="fide_n_id" class="form-control" [(ngModel)]="field_values['fide_id']" />
         </div>
         <div class="form-group mb-3"
-          *ngIf="(fields.includes('calculate_cbx') && fields.includes('cbx_id')) || (fields.includes('calculate_fide') && fields.includes('cbx_id') && born_country_id == 33)">
+          *ngIf="(fields.includes('cbx_id')) || (fields.includes('fide_id') && born_country_id === 33 && !player.cbx_id)">
           <label for="cbx_id" class="field-required">ID CBX *</label>
           <input type="text" id="cbx_id" name="cbx_id" class="form-control" [(ngModel)]="field_values['cbx_id']" />
         </div>
         <div class="form-group mb-3"
-          *ngIf="(fields.includes('calculate_fide') && fields.includes('cbx_id') && born_country_id > 0 && born_country_id != 33)">
+          *ngIf="(fields.includes('fide_id') && born_country_id > 0 && born_country_id !== 33 && !player.fide_id)">
           <label for="cbx_n_id">ID CBX</label>
           <input type="text" id="cbx_n_id" name="cbx_n_id" class="form-control" [(ngModel)]="field_values['cbx_id']" />
         </div>

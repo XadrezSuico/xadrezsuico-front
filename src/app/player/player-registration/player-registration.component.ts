@@ -1,3 +1,6 @@
+import { PlayerRequest } from './../_interfaces/player-request';
+import { PlayerRegistrationController } from './../_controllers/player-registration.controller';
+import { XadrezSuicoDefault } from './../../_intefaces/default';
 import { PlayerClubController } from './../_controllers/club.controller';
 import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import { PlayerDocumentType } from './../_interfaces/player-document-type';
@@ -9,20 +12,28 @@ import { PlayerStateController } from './../_controllers/state.controller';
 import { PlayerCityController } from './../_controllers/city.controller';
 import { Select2Option, Select2SearchEvent, Select2UpdateValue } from 'ng-select2-component';
 import { PlayerSexController } from './../_controllers/sex.controller';
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Output, SimpleChanges, EventEmitter } from '@angular/core';
 import { NgbProgressbarConfig } from '@ng-bootstrap/ng-bootstrap';
 import { PlayerSex } from '../_interfaces/player-sex';
 import { PlayerCountry } from '../_interfaces/player-country';
 import Swal from 'sweetalert2';
 import { PlayerClub } from '../_interfaces/player-club';
+import { DefaultSingleton } from 'src/app/_singleton/default';
 
 @Component({
+  selector: 'app-player-registration',
   templateUrl: './player-registration.component.html',
   styleUrls: ['./player-registration.component.scss']
 })
 export class PlayerRegistrationComponent implements OnInit, OnChanges {
 
   faSpin = faSyncAlt;
+
+  @Input()
+  is_a_sub_component = false;
+
+  @Output()
+  player_registered_event_emitter:EventEmitter<number> = new EventEmitter<number>();
 
   constructor(
     private player_sex_controller:PlayerSexController,
@@ -34,6 +45,8 @@ export class PlayerRegistrationComponent implements OnInit, OnChanges {
     private player_document_type_controller:PlayerDocumentTypeController,
 
     private player_club_controller:PlayerClubController,
+
+    private player_registration_controller:PlayerRegistrationController,
   ) {
   }
   is_requesting = true;
@@ -58,10 +71,20 @@ export class PlayerRegistrationComponent implements OnInit, OnChanges {
     2:"Documentos",
     3:"Outras Informações",
     4:"Cadastros nas Entidades e Plataformas Online",
-    5:"Vínculo do Enxadrista"
+    5:"Vínculo do Enxadrista",
+    6:"Cadastro Finalizado"
   }
 
+  player:any = null;
+
   field_values:any = [];
+  entities:any = {
+    cbx:0,
+    fide:0,
+    lbx:0,
+    lichess:0,
+    chess_com:0
+  };
 
   accepts = {
     policy:0
@@ -72,11 +95,54 @@ export class PlayerRegistrationComponent implements OnInit, OnChanges {
       this.listCountries(()=>{
         this.is_requesting = false;
 
-        this.form_started = true;
+
+        setTimeout(()=>{
+          this.getDefaults(()=>{
+            this.form_started = true;
+          });
+        },300);
       });
     });
 
   }
+
+  getDefaults(callback:any = null){
+    let defaults = DefaultSingleton.getInstance().getDefaults();
+
+    this.setDefaults(defaults, callback);
+  }
+
+  setDefaults(defaults:XadrezSuicoDefault,callback:any = null){
+    console.log(defaults);
+
+    if(defaults.country_default){
+      console.log("defaults: country - ".concat(String(defaults.country_default)));
+      this.born_country_id = Number(defaults.country_default);
+      this.cellphone_country_id = Number(defaults.country_default);
+      this.country_id = Number(defaults.country_default);
+
+      this.listStates(()=>{
+        if(defaults.state_default){
+          console.log(this.states);
+          console.log("defaults: state");
+          this.state_id = Number(defaults.state_default);
+          this.listCities(()=>{
+            if(defaults.city_default){
+              console.log("defaults: city");
+              this.city_id = Number(defaults.city_default);
+            }
+          });
+        }
+      });
+    }
+
+    setTimeout(()=>{
+      if(callback){
+        callback();
+      }
+    },300);
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     console.log(changes);
     alert(1)
@@ -84,6 +150,86 @@ export class PlayerRegistrationComponent implements OnInit, OnChanges {
 
   onNavChange(event:any){
     console.log(this.active);
+  }
+
+  async onSubmit(){
+    this.setStep(5);
+
+    this.is_requesting = true;
+
+    let field_values = this.field_values;
+    field_values["accepts"] = this.accepts;
+
+    let response = await this.player_registration_controller.register(field_values);
+    if(response.ok === 1){
+      if(response.result){
+
+        this.player = response.player;
+
+        this.active = 6;
+
+        this.setStep(6);
+
+        this.is_requesting = false;
+      }else{
+        this.setStep(4);
+
+        this.is_requesting = false;
+
+        Swal.fire({
+          title: 'Erro!',
+          html: response.message,
+          icon: 'error',
+          confirmButtonText: 'Fechar',
+          toast: true,
+          position: 'top-right',
+          timer: 3000,
+          timerProgressBar: true,
+        });
+      }
+    }else{
+      if(response.result && response.player){
+        let html = response.message;
+
+        html = html.concat("<hr/>");
+        html = html.concat("Dados do Jogador:");
+
+        html = html.concat("<h4><strong>ID:</strong> ").concat(String(response.player.id)).concat("</h4>");
+        html = html.concat("<strong>Nome:</strong> ").concat(response.player.name).concat("<br/>");
+        html = html.concat("<strong>Data de Nascimento:</strong> ").concat(response.player.birthday).concat("<br/>");
+        html = html.concat("<strong>Cidade:</strong> ").concat(response.player.city_name).concat("<br/>");
+
+        Swal.fire({
+          title: 'Jogador Existente!',
+          html: html,
+          showCancelButton: true,
+          confirmButtonText: (this.is_a_sub_component) ? "OK, Usar este cadastro" : "OK",
+          cancelButtonText: `Cancelar`,
+        }).then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            this.player_registered_event_emitter.emit(response?.player?.id);
+          } else if (result.isDenied) {
+
+          }
+        })
+      }else{
+        this.setStep(4);
+
+        this.is_requesting = false;
+
+        Swal.fire({
+          title: 'Erro!',
+          html: response.message,
+          icon: 'error',
+          confirmButtonText: 'Fechar',
+          toast: true,
+          position: 'top-right',
+          timer: 3000,
+          timerProgressBar: true,
+        });
+      }
+    }
   }
 
   setStep(number:number){
@@ -146,17 +292,29 @@ export class PlayerRegistrationComponent implements OnInit, OnChanges {
       }
     }
 
-    this.is_requesting = true;
-    this.listDocumentTypes(()=>{
-      this.active = 2;
+    this.checkIfPlayerExists(this.field_values["name"],this.field_values["birthday"],[],()=>{
+      if(this.is_born_country_changed || this.document_types.length === 0){
+        this.is_requesting = true;
+        this.listDocumentTypes(()=>{
+          this.active = 2;
 
-      this.setStep(this.active-1);
+          this.setStep(this.active-1);
 
 
-      this.is_requesting = false;
+          this.is_requesting = false;
+        });
+
+        this.is_born_country_changed = false;
+      }else{
+          this.active = 2;
+          this.setStep(this.active-1);
+      }
     });
+
   }
   goToPage3(){
+    console.log(this.field_values);
+
     let is_document_found = false;
     for(let document_type of this.document_types){
       if(document_type.is_required){
@@ -173,6 +331,8 @@ export class PlayerRegistrationComponent implements OnInit, OnChanges {
           });
 
           return;
+        }else{
+          is_document_found = true;
         }
       }else{
         if(!(!this.field_values['documents'][document_type.id] || this.field_values['documents'][document_type.id] === "")){
@@ -196,10 +356,11 @@ export class PlayerRegistrationComponent implements OnInit, OnChanges {
       return;
     }
 
+    this.checkIfPlayerExists(null,null,this.field_values["documents"],()=>{
+      this.active = 3;
 
-    this.active = 3;
-
-    this.setStep(this.active-1);
+      this.setStep(this.active-1);
+    });
   }
   goToPage4(){
     for(let field of ["email","cellphone_country_id","cellphone"]){
@@ -263,6 +424,9 @@ export class PlayerRegistrationComponent implements OnInit, OnChanges {
   }
   goToPage5(){
     this.active = 5;
+
+    this.previne_country_update = true;
+    this.previne_state_update = true;
 
     this.setStep(this.active-1);
   }
@@ -345,6 +509,94 @@ export class PlayerRegistrationComponent implements OnInit, OnChanges {
     await this.setField("sex_id",e.value);
   }
 
+  async checkIfPlayerExists(name = null, birthday = null, documents = [], callback_ok:any = null, callback_error:any = null){
+    this.is_requesting = true;
+    let response:PlayerRequest;
+    if(name && birthday){
+      response = await this.player_registration_controller.check(name,birthday);
+
+      if(response.result && response.message && response.player){
+        let html = response.message;
+
+        html = html.concat("<hr/>");
+        html = html.concat("Dados do Jogador:");
+
+        html = html.concat("<h4><strong>ID:</strong> ").concat(String(response.player.id)).concat("</h4>");
+        html = html.concat("<strong>Nome:</strong> ").concat(response.player.name).concat("<br/>");
+        html = html.concat("<strong>Data de Nascimento:</strong> ").concat(response.player.birthday).concat("<br/>");
+        html = html.concat("<strong>Cidade:</strong> ").concat(response.player.city_name).concat("<br/>");
+
+        Swal.fire({
+          title: 'Jogador Existente!',
+          html: html,
+          showCancelButton: true,
+          confirmButtonText: (this.is_a_sub_component) ? "OK, Usar este cadastro" : "OK",
+          cancelButtonText: `Cancelar`,
+        }).then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            this.player_registered_event_emitter.emit(response?.player?.id);
+          } else if (result.isDenied) {
+
+          }
+        })
+
+        if(callback_error){
+          callback_error();
+        }
+      }else{
+        if(callback_ok){
+          callback_ok();
+        }
+      }
+    }else if(documents.length > 0){
+      response = await this.player_registration_controller.check("","",documents);
+
+      if(response.result && response.message && response.player){
+        let html = response.message;
+
+        html = html.concat("<hr/>");
+        html = html.concat("Dados do Jogador:");
+
+        html = html.concat("<h4><strong>ID:</strong> ").concat(String(response.player.id)).concat("</h4>");
+        html = html.concat("<strong>Nome:</strong> ").concat(response.player.name).concat("<br/>");
+        html = html.concat("<strong>Data de Nascimento:</strong> ").concat(response.player.birthday).concat("<br/>");
+        html = html.concat("<strong>Cidade:</strong> ").concat(response.player.city_name).concat("<br/>");
+
+        Swal.fire({
+          title: 'Jogador Existente!',
+          html: html,
+          showCancelButton: true,
+          confirmButtonText: (this.is_a_sub_component) ? "OK, Usar este cadastro" : "OK",
+          cancelButtonText: `Cancelar`,
+        }).then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            this.player_registered_event_emitter.emit(response?.player?.id);
+          } else if (result.isDenied) {
+
+          }
+        })
+
+        if(callback_error){
+          callback_error();
+        }
+      }else{
+        if(callback_ok){
+          callback_ok();
+        }
+      }
+    }else{
+
+      if(callback_error){
+        callback_error();
+      }
+    }
+
+
+    this.is_requesting = false;
+  }
+
 
   born_country_id:number = 0;
   cellphone_country_id:number = 0;
@@ -359,6 +611,10 @@ export class PlayerRegistrationComponent implements OnInit, OnChanges {
   cities:Array<Select2Option> = [];
 
   document_types:Array<PlayerDocumentType> = [];
+  document_types_selected:Array<PlayerDocumentType> = [];
+
+  previne_country_update = false;
+  previne_state_update = false;
 
   async listCountries(callback:any = null){
     let response = await this.player_country_controller.list();
@@ -366,7 +622,9 @@ export class PlayerRegistrationComponent implements OnInit, OnChanges {
       await this.parseCountriesToSelect2(response.countries);
 
       if(callback){
-        callback();
+        setTimeout(()=>{
+          callback();
+        },200);
       }
     }
   }
@@ -454,13 +712,37 @@ export class PlayerRegistrationComponent implements OnInit, OnChanges {
     if(response.ok){
       this.clearDocuments();
 
+      this.document_types_selected = [];
+
       this.document_types = response.document_types;
 
       console.log(this.document_types);
 
+      for(let document_type of this.document_types){
+        if(document_type.is_required){
+          this.addSelectedDocumentType(document_type);
+        }
+      }
+
       if(callback){
         callback();
       }
+    }
+  }
+
+  async addSelectedDocumentType(document_type:PlayerDocumentType){
+    if(!this.document_types_selected.includes(document_type)){
+      this.document_types_selected[this.document_types_selected.length] = document_type;
+    }
+  }
+  async removeSelectedDocumentType(document_type:PlayerDocumentType){
+    if(this.document_types_selected.includes(document_type)){
+      this.document_types_selected.splice(this.document_types_selected.indexOf(document_type,0),1);
+      if(this.field_values['documents'][document_type.id]){
+        this.field_values['documents'].splice(document_type.id,1);
+      }
+
+      console.log(this.field_values);
     }
   }
 
@@ -517,31 +799,48 @@ export class PlayerRegistrationComponent implements OnInit, OnChanges {
     }
   }
 
-
+  is_born_country_changed = false;
   async updateBornCountry(e:any){
+    if(this.born_country_id !== e.value){
+      this.is_born_country_changed = true;
+    }
+
     this.born_country_id = e.value;
     await this.setField("born_country_id",e.value);
 
-    this.clearDocuments();
+    if(this.is_born_country_changed) this.clearDocuments();
   }
   updateCellphoneCountry(e:any){
     this.cellphone_country_id = e.value;
     this.setField("cellphone_country_id",e.value);
   }
   updateCountry(e:any){
+    console.log("updateCountry")
     this.country_id = e.value;
 
-    if(this.form_started) this.listStates();
+    if(this.form_started){
+      this.listStates();
 
-    this.state_id = 0;
-    this.city_id = 0;
+      if(!this.previne_country_update){
+        this.state_id = 0;
+        this.city_id = 0;
+      }else{
+        this.previne_country_update = false;
+      }
+    }
   }
   updateState(e:any){
     this.state_id = e.value;
 
-    if(this.form_started) this.listCities();
+    if(this.form_started){
+      this.listCities();
 
-    this.city_id = 0;
+      if(!this.previne_state_update){
+        this.city_id = 0;
+      }else{
+        this.previne_state_update = false;
+      }
+    }
   }
   updateCity(e:any){
     this.city_id = e.value;
@@ -558,6 +857,10 @@ export class PlayerRegistrationComponent implements OnInit, OnChanges {
     }else{
       this.accepts.policy = 1;
     }
+  }
+
+  selectPlayer(player:any){
+    this.player_registered_event_emitter.emit(player.id);
   }
 
 }

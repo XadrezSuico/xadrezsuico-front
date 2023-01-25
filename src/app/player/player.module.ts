@@ -1,3 +1,4 @@
+import { SharedModule } from './../shared-module/shared-module.module';
 import { NgbModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -13,8 +14,7 @@ import { NgxMaskModule } from 'ngx-mask';
 
 @NgModule({
   declarations: [
-    PlayersListComponent,
-    PlayerRegistrationComponent
+    PlayersListComponent
   ],
   imports: [
     CommonModule,
@@ -26,6 +26,7 @@ import { NgxMaskModule } from 'ngx-mask';
     NgbNavModule,
     Select2Module,
     NgxMaskModule.forChild(),
+    SharedModule
   ]
 })
 export class PlayerModule { }

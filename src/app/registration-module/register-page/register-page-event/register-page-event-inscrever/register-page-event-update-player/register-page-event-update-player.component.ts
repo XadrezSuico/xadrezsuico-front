@@ -3,7 +3,7 @@ import { EventPublicDocumentType } from './../../../../_interfaces/event-public-
 import { RegisterEventDocumentTypeController } from './../../../../_controllers/register-event-document-type.controller';
 import { EventPublicSex } from './../../../../_interfaces/event-public-sex';
 import { RegisterEventSexController } from './../../../../_controllers/register-event-sex.controller';
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { Select2Option } from 'ng-select2-component';
 import { RegisterEventCityController } from 'src/app/registration-module/_controllers/register-event-city.controller';
 import { RegisterEventCountryController } from 'src/app/registration-module/_controllers/register-event-country.controller';
@@ -22,7 +22,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './register-page-event-update-player.component.html',
   styleUrls: ['./register-page-event-update-player.component.scss']
 })
-export class RegisterPageEventUpdatePlayerComponent implements OnInit {
+export class RegisterPageEventUpdatePlayerComponent implements OnInit, AfterViewInit {
 
   constructor(
     private register_event_controller:RegisterEventController,
@@ -33,6 +33,9 @@ export class RegisterPageEventUpdatePlayerComponent implements OnInit {
     private register_event_document_type_controller:RegisterEventDocumentTypeController,
     private register_event_player_controller:RegisterEventPlayerController
   ) { }
+  ngAfterViewInit(): void {
+
+  }
 
   ngOnInit(): void {
     if(this.fields.includes("city_id") || this.fields.includes("country_id") || this.fields.includes("country_cellphone_id") || this.fields.includes("documents")){
@@ -41,6 +44,9 @@ export class RegisterPageEventUpdatePlayerComponent implements OnInit {
     if(this.fields.includes("sex_id")){
       this.listSexes();
     }
+
+    this.born_country_id = (this.player.born_country_id) ? Number(this.player.born_country_id) : 0;
+
   }
 
   @Input()
@@ -274,7 +280,7 @@ export class RegisterPageEventUpdatePlayerComponent implements OnInit {
   }
 
   async updateBornCountry(e:any){
-    this.born_country_id = e.value;
+    this.born_country_id = Number(e.value);
     await this.setField("born_country_id",e.value);
 
     await this.listDocumentTypes();

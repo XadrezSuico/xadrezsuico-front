@@ -4,6 +4,7 @@ import { EventPublic } from './../../../_interfaces/event-public';
 import { Component, Input, OnInit } from '@angular/core';
 import { faCircleNotch, faSpinner, faSearch, faTimes, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import { EventPublicCategory } from 'src/app/registration-module/_interfaces/event-public-category';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-register-page-event-inscrever',
@@ -19,7 +20,7 @@ export class RegisterPageEventInscreverComponent implements OnInit {
 
   faNotReceiving = faTimes;
 
-  constructor(private register_event_player_controller:RegisterEventPlayerController) { }
+  constructor(private register_event_player_controller:RegisterEventPlayerController, private modalService: NgbModal) { }
 
   @Input()
   event!:EventPublic;
@@ -129,5 +130,20 @@ export class RegisterPageEventInscreverComponent implements OnInit {
 
   onPlayerUpdated(player_id:number){
     this.registerForm(player_id);
+  }
+
+
+
+  onNewPlayerRegistered(player_id:any){
+    this.modal_ref.close(true);
+    this.registerForm(player_id);
+  }
+
+
+  modal_ref:any = null;
+  openNewPlayerModal(content:any){
+		this.modal_ref = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'xl' });
+
+    return false;
   }
 }

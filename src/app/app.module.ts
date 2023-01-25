@@ -1,3 +1,5 @@
+import { SharedModule } from './shared-module/shared-module.module';
+import { PlayerRegistrationComponent } from './player/player-registration/player-registration.component';
 import { RegistrationModuleModule } from './registration-module/registration-module.module';
 import { RegistrationModuleComponent } from './registration-module/registration-module.component';
 import { NgModule } from '@angular/core';
@@ -33,7 +35,7 @@ export const options: Partial<null|IConfig> | (() => Partial<IConfig>) = null;
     Select2Module,
     NgxMaskModule.forRoot(),
     PageModuleModule,
-    PlayerModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

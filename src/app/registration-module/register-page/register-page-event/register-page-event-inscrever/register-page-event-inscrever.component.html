@@ -1,3 +1,13 @@
+<ng-template #newPlayerModelContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Novo Enxadrista</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <app-player-registration (player_registered_event_emitter)="onNewPlayerRegistered($event)" [is_a_sub_component]="true"></app-player-registration>
+  </div>
+</ng-template>
+
 <div class="requesting-overlay" *ngIf="is_requesting">
   <i class="fas fa-5x fa-sync-alt fa-spin" aria-hidden="true"></i>
   <fa-icon [icon]="faSpin" size="5x" [spin]="true"></fa-icon>
@@ -15,7 +25,7 @@
             </div>
           </div>
         </form>
-        <p class="text-center"><small>Caso o(a) enxadrista não possua cadastro, <a href="#">acesse esta página</a> e efetue.</small></p>
+        <p class="text-center"><small>Caso o(a) enxadrista não possua cadastro, <a href="#" (click)="openNewPlayerModal(newPlayerModelContent)">acesse esta página</a> e efetue.</small></p>
         <div *ngIf="is_searching" class="text-center">
           <fa-icon [icon]="faSearching" size="4x" [spin]="true" class="default-icon-color"></fa-icon>
         </div>

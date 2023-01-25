@@ -10,6 +10,8 @@ export interface EventPublicPlayer{
   city?:EventPublicCity;
   club?:EventPublicClub;
 
+  born_country_id?:number;
+
   fide_id?:number;
   cbx_id?:number;
   lbx_id?:number;

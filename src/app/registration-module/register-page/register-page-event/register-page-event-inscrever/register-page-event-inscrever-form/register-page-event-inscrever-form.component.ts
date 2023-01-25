@@ -72,7 +72,6 @@ export class RegisterPageEventInscreverFormComponent implements OnInit {
   };
 
   async onSubmit(){
-    this.is_requesting = true;
     if(this.event){
       if(this.event.uuid){
         if(!(this.category_id > 0)){
@@ -120,6 +119,9 @@ export class RegisterPageEventInscreverFormComponent implements OnInit {
           });
           return;
         }
+
+        this.is_requesting = true;
+
         let response;
         // if(this.club_id){
           response = await this.register_event_controller.register(this.event.uuid,this.accepts,this.category_id,this.player.id,this.city_id,this.club_id);
@@ -177,6 +179,8 @@ export class RegisterPageEventInscreverFormComponent implements OnInit {
             icon: 'error',
             confirmButtonText: 'Fechar'
           });
+          this.is_requesting = false;
+
           return;
         }
       }

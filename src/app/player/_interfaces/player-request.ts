@@ -7,6 +7,9 @@ export interface PlayerRequest{
   ok:number;
   error:number;
   message?:string;
+
+  result?:boolean;
+
   player?:Player;
   players?:Array<Player>;
 
