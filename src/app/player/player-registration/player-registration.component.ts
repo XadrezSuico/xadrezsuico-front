@@ -145,7 +145,6 @@ export class PlayerRegistrationComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log(changes);
-    alert(1)
   }
 
   onNavChange(event:any){
