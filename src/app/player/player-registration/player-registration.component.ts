@@ -13,7 +13,7 @@ import { PlayerCityController } from './../_controllers/city.controller';
 import { Select2Option, Select2SearchEvent, Select2UpdateValue } from 'ng-select2-component';
 import { PlayerSexController } from './../_controllers/sex.controller';
 import { Component, Input, OnChanges, OnInit, Output, SimpleChanges, EventEmitter } from '@angular/core';
-import { NgbProgressbarConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbProgressbarConfig } from '@ng-bootstrap/ng-bootstrap';
 import { PlayerSex } from '../_interfaces/player-sex';
 import { PlayerCountry } from '../_interfaces/player-country';
 import Swal from 'sweetalert2';
@@ -47,6 +47,8 @@ export class PlayerRegistrationComponent implements OnInit, OnChanges {
     private player_club_controller:PlayerClubController,
 
     private player_registration_controller:PlayerRegistrationController,
+
+    private modalService: NgbModal
   ) {
   }
   is_requesting = true;
@@ -104,6 +106,7 @@ export class PlayerRegistrationComponent implements OnInit, OnChanges {
       });
     });
 
+    this.doSearchClubs("");
   }
 
   getDefaults(callback:any = null){
@@ -754,14 +757,15 @@ export class PlayerRegistrationComponent implements OnInit, OnChanges {
     let search_this_count = this.search_count;
 
     setTimeout(async ()=>{
-      if(this.search_count === search_this_count){
-        console.log("search")
-        let response = await this.player_club_controller.search(e.search);
-        if(response.ok){
-          await this.parseClubsToSelect2(response.clubs);
-        }
-      }
+      await this.doSearchClubs(e.search);
     },400);
+  }
+  async doSearchClubs(search:string){
+    console.log("search")
+    let response = await this.player_club_controller.search(search);
+    if(response.ok){
+      await this.parseClubsToSelect2(response.clubs);
+    }
   }
 
   async addClubToSelect2(club_id:number){
@@ -860,6 +864,24 @@ export class PlayerRegistrationComponent implements OnInit, OnChanges {
 
   selectPlayer(player:any){
     this.player_registered_event_emitter.emit(player.id);
+  }
+
+  modal_ref:any = null;
+  openNewClubModal(content:any){
+		this.modal_ref = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'xl' });
+
+    return false;
+  }
+
+  async onClubSelected(club_id:number){
+    this.modal_ref.close();
+
+    let response = await this.player_club_controller.get(club_id);
+    if(response.ok === 1){
+      this.parseClubsToSelect2([response.club],()=>{
+        this.club_id = response.club.id;
+      });
+    }
   }
 
 }

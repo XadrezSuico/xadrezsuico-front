@@ -15,6 +15,7 @@ import { RegisterEventCityController } from 'src/app/registration-module/_contro
 import Swal from 'sweetalert2';
 import { RegisterEventController } from 'src/app/registration-module/_controllers/register-event.controller';
 import { environment } from 'src/environments/environment';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-register-page-event-inscrever-form',
@@ -31,7 +32,9 @@ export class RegisterPageEventInscreverFormComponent implements OnInit {
     private register_event_country_controller:RegisterEventCountryController,
     private register_event_state_controller:RegisterEventStateController,
     private register_event_city_controller:RegisterEventCityController,
-    private register_event_club_controller:RegisterEventClubController
+    private register_event_club_controller:RegisterEventClubController,
+
+    private modalService: NgbModal
     ) { }
   @Input()
   event!:EventPublic;
@@ -474,6 +477,24 @@ export class RegisterPageEventInscreverFormComponent implements OnInit {
 
   returnToSearch(){
     this.return_to_search_event_emitter.emit();
+  }
+
+  modal_ref:any = null;
+  openNewClubModal(content:any){
+		this.modal_ref = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'xl' });
+
+    return false;
+  }
+
+  async onClubSelected(club_id:number){
+    this.modal_ref.close();
+
+    let response = await this.register_event_club_controller.get(club_id);
+    if(response.ok === 1){
+      this.parseClubsToSelect2([response.club],()=>{
+        this.club_id = response.club.id;
+      });
+    }
   }
 
 }

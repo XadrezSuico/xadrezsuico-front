@@ -1,3 +1,13 @@
+<ng-template #newClubModelContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Novo Clube</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <app-new-club-form (club_selected_event_emmiter)="onClubSelected($event)" [is_a_sub_component]="true">
+    </app-new-club-form>
+  </div>
+</ng-template>
 <div class="requesting-overlay" *ngIf="is_requesting">
   <i class="fas fa-5x fa-sync-alt fa-spin" aria-hidden="true"></i>
   <fa-icon [icon]="faSpin" size="5x" [spin]="true"></fa-icon>
@@ -63,6 +73,7 @@
           class="form-control"
           (update)="updateClub($event)"
           (search)="searchClubs($event)"> </select2>
+          <p>Caso seu clube não apareça na busca, você pode cadastrá-lo clicando <a href="#" (click)="openNewClubModal(newClubModelContent)">aqui</a>.</p>
           <hr/>
 
           <h6>Aceites:</h6>

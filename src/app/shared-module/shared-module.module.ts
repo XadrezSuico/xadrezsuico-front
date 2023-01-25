@@ -8,6 +8,7 @@ import { NgbModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxMaskModule } from 'ngx-mask';
 import { Select2Module } from 'ng-select2-component';
 import { RouterModule } from '@angular/router';
+import { NewClubFormComponent } from './new-club-form/new-club-form.component';
 
 
 
@@ -25,10 +26,12 @@ import { RouterModule } from '@angular/router';
       SharedRoutingModule
      ],
     declarations: [
-      PlayerRegistrationComponent
+      PlayerRegistrationComponent,
+      NewClubFormComponent
     ],
     exports: [
-      PlayerRegistrationComponent
+      PlayerRegistrationComponent,
+      NewClubFormComponent
     ]
 })
 export class SharedModule { }

@@ -27,7 +27,7 @@ export class RegisterPageEventComponent implements OnInit {
   @Input()
   event!: EventPublic;
 
-  page_active = 'register'
+  page_active = 'home'
 
   ngOnInit() {
     this.uuid = String(this.route.snapshot.paramMap.get('uuid'));
