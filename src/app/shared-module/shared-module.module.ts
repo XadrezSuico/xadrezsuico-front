@@ -1,3 +1,4 @@
+import { SharedRoutingModule } from './shared-module-routing.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PlayerRegistrationComponent } from '../player/player-registration/player-registration.component';
@@ -21,6 +22,7 @@ import { RouterModule } from '@angular/router';
       Select2Module,
       NgxMaskModule.forChild(),
       RouterModule,
+      SharedRoutingModule
      ],
     declarations: [
       PlayerRegistrationComponent

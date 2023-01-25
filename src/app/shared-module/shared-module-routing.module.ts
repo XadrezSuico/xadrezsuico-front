@@ -1,11 +1,11 @@
-import { PlayersListComponent } from './players-list/players-list.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { PlayerRegistrationComponent } from '../player/player-registration/player-registration.component';
 
 const routes: Routes = [
   {
-    path: 'players',
-    component: PlayersListComponent
+    path: 'registration',
+    component: PlayerRegistrationComponent
   },
 ];
 
@@ -13,4 +13,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class PlayerRoutingModule { }
+export class SharedRoutingModule { }

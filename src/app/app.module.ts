@@ -35,7 +35,8 @@ export const options: Partial<null|IConfig> | (() => Partial<IConfig>) = null;
     Select2Module,
     NgxMaskModule.forRoot(),
     PageModuleModule,
-    SharedModule
+    SharedModule,
+    PlayerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
