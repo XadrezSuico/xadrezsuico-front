@@ -46,16 +46,16 @@
           </thead>
           <tbody>
             <tr *ngFor="let registration of registrations">
-              <td>
+              <td class="td-player">
                 <span *ngIf="registration.player">#{{registration.player.id}} - {{registration.player.name}}</span>
               </td>
-              <td>
+              <td class="td-category">
                 <span *ngIf="registration.category">{{registration.category.name}}</span>
               </td>
-              <td>
+              <td class="td-city">
                 <span *ngIf="registration.city">{{registration.city.name}}</span>
               </td>
-              <td>
+              <td class="td-club">
                 <span *ngIf="registration.club">
                   {{registration.club.name}}
                 </span>
@@ -65,14 +65,14 @@
               </td>
 
               <!-- LICHESS -->
-              <td *ngIf="event.info.is_lichess || event.info.is_lichess_integration">
+              <td class="td-lichess-username" *ngIf="event.info.is_lichess || event.info.is_lichess_integration">
                 <!-- LICHESS USERNAME -->
                 <span *ngIf="registration.lichess_info">
                   {{registration.lichess_info.username}}
                 </span>
               </td>
-              <td *ngIf="event.info.is_lichess_integration">
-                <!-- IS SUBSCRIBED -->
+              <td class="td-lichess-is-subscribed" *ngIf="event.info.is_lichess_integration">
+                <!-- LICHESS IS SUBSCRIBED -->
                 <span *ngIf="registration.lichess_info">
                   <span *ngIf="registration.lichess_info.is_subscribed">
                     Sim
@@ -82,7 +82,7 @@
                   </span>
                 </span>
               </td>
-              <td *ngIf="event.info.is_lichess_integration">
+              <td class="td-lichess-rating" *ngIf="event.info.is_lichess_integration">
                 <!-- LICHESS RATING -->
                 <span *ngIf="registration.lichess_info">
                   <span *ngIf="registration.lichess_info.rating">
@@ -93,7 +93,7 @@
                   </span>
                 </span>
               </td>
-              <td *ngIf="event.info.is_lichess_integration">
+              <td class="td-lichess-start-no" *ngIf="event.info.is_lichess_integration">
                 <!-- START No AT THE LICHESS TOURNAMENT -->
                 <span *ngIf="registration.lichess_info">
                   <span *ngIf="registration.lichess_info.start_no">
@@ -106,7 +106,7 @@
               </td>
 
               <!-- CHESS.COM -->
-              <td *ngIf="event.info.is_chess_com">
+              <td class="td-chess-com" *ngIf="event.info.is_chess_com">
                 <!-- CHESS.COM USERNAME -->
                 <span *ngIf="registration.chess_com_info">
                   {{registration.chess_com_info.username}}
@@ -114,7 +114,7 @@
               </td>
 
               <!-- XADREZSUICO RATING -->
-              <td *ngIf="event.info.is_xadrezsuico_rating">
+              <td class="td-xadrezsuico-rating" *ngIf="event.info.is_xadrezsuico_rating">
                 <!-- XADREZSUICO RATING -->
                 <span *ngIf="registration.rating">
                   {{registration.rating}}
@@ -122,14 +122,14 @@
               </td>
 
               <!-- USE FIDE RATING -->
-              <td *ngIf="event.info.is_use_fide">
+              <td class="td-fide-id" *ngIf="event.info.is_use_fide">
                 <!-- FIDE ID -->
                 <span *ngIf="registration.fide_info">
                   <span *ngIf="registration.fide_info.id">{{registration.fide_info.id}}</span>
                   <span *ngIf="!registration.fide_info.id">-</span>
                 </span>
               </td>
-              <td *ngIf="event.info.is_use_fide">
+              <td class="td-fide-rating" *ngIf="event.info.is_use_fide">
                 <!-- FIDE RATING TO THIS TOURNAMENT -->
                 <span *ngIf="registration.fide_info">
                   <span *ngIf="registration.fide_info.rating">{{registration.fide_info.rating}}</span>
@@ -138,14 +138,14 @@
               </td>
 
               <!-- USE CBX RATING -->
-              <td *ngIf="event.info.is_use_cbx">
+              <td class="td-cbx-id" *ngIf="event.info.is_use_cbx">
                 <!-- CBX ID -->
                 <span *ngIf="registration.cbx_info">
                   <span *ngIf="registration.cbx_info.id">{{registration.cbx_info.id}}</span>
                   <span *ngIf="!registration.cbx_info.id">-</span>
                 </span>
               </td>
-              <td *ngIf="event.info.is_use_cbx">
+              <td class="td-cbx-rating" *ngIf="event.info.is_use_cbx">
                 <!-- CBX RATING TO THIS TOURNAMENT -->
                 <span *ngIf="registration.cbx_info">
                   <span *ngIf="registration.cbx_info.rating">{{registration.cbx_info.rating}}</span>
@@ -154,14 +154,14 @@
               </td>
 
               <!-- USE LBX RATING -->
-              <td *ngIf="event.info.is_use_lbx">
+              <td class="td-lbx-id" *ngIf="event.info.is_use_lbx">
                 <!-- LBX ID -->
                 <span *ngIf="registration.lbx_info">
                   <span *ngIf="registration.lbx_info.id">{{registration.lbx_info.id}}</span>
                   <span *ngIf="!registration.lbx_info.id">-</span>
                 </span>
               </td>
-              <td *ngIf="event.info.is_use_cbx">
+              <td class="td-lbx-rating" *ngIf="event.info.is_use_lbx">
                 <!-- LBX RATING TO THIS TOURNAMENT -->
                 <span *ngIf="registration.lbx_info">
                   <span *ngIf="registration.lbx_info.rating">{{registration.lbx_info.rating}}</span>
@@ -170,7 +170,7 @@
               </td>
 
               <!-- PAYMENT -->
-              <td *ngIf="event.info.is_paid">
+              <td class="td-payment" *ngIf="event.info.is_paid">
                 <span *ngIf="registration.payment_info">
                   <span *ngIf="registration.payment_info.is_paid">Pagamento Confirmado</span>
                   <span *ngIf="!registration.payment_info.is_paid">
@@ -184,7 +184,7 @@
               </td>
 
               <!-- CUSTOM FIELDS -->
-              <td *ngFor="let custom_field of registration.custom_fields">{{custom_field.value}}</td>
+              <td class="td-custom-field" *ngFor="let custom_field of registration.custom_fields">{{custom_field.value}}</td>
             </tr>
           </tbody>
         </table>
