@@ -8,6 +8,7 @@ import { EventPublicCity } from 'src/app/registration-module/_interfaces/event-p
 import { EventPublicCategory } from 'src/app/registration-module/_interfaces/event-public-category';
 import { EventPublicPlayer } from 'src/app/registration-module/_interfaces/event-public-player';
 import { EventPublicCbxInfo } from './event-public-cbx-info';
+import { CustomField } from 'src/app/_intefaces/custom-field';
 export interface EventPublicRegistration{
   uuid:string;
   player?:EventPublicPlayer;
@@ -29,4 +30,6 @@ export interface EventPublicRegistration{
   lbx_info?:EventPublicLbxInfo;
 
   payment_info?:EventPublicPaymentInfo;
+
+  custom_fields?:Array<CustomField>;
 }

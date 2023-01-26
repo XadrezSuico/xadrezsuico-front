@@ -1,3 +1,4 @@
+import { CustomField } from "src/app/_intefaces/custom-field";
 import { EventPublicInfoTime } from "./event-public-info-time";
 
 export interface EventPublicInfo{
@@ -25,4 +26,6 @@ export interface EventPublicInfo{
   is_use_fide:boolean;
   is_use_cbx:boolean;
   is_use_lbx:boolean;
+
+  custom_fields:Array<CustomField>;
 }

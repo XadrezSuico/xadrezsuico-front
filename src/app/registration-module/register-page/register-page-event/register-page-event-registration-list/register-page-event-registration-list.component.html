@@ -39,6 +39,9 @@
 
               <!-- PAYMENT -->
               <th *ngIf="event.info.is_paid">Pagamento</th>
+
+              <!-- CUSTOM FIELDS -->
+              <th *ngFor="let custom_field of event.info.custom_fields">{{custom_field.public_name}}</th>
             </tr>
           </thead>
           <tbody>
@@ -179,6 +182,9 @@
                   </span>
                 </span>
               </td>
+
+              <!-- CUSTOM FIELDS -->
+              <td *ngFor="let custom_field of registration.custom_fields">{{custom_field.value}}</td>
             </tr>
           </tbody>
         </table>
