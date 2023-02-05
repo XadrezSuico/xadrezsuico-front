@@ -22,32 +22,34 @@
           <div *ngIf="has_results">
             <hr />
             <h3>Resultados da Pesquisa por '{{query}}':</h3>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Nome</th>
-                  <th>Nascimento</th>
-                  <th>ID FIDE</th>
-                  <th>ID CBX</th>
-                  <th>ID LBX</th>
-                  <th>Cidade</th>
-                  <th>Clube</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let player of players">
-                  <td>{{player.id}}</td>
-                  <td>{{player.name}}</td>
-                  <td>{{player.birthday}}</td>
-                  <td>{{player.fide_id}}</td>
-                  <td>{{player.cbx_id}}</td>
-                  <td>{{player.lbx_id}}</td>
-                  <td>{{player.city_name}}</td>
-                  <td>{{player.club_name}}</td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Nascimento</th>
+                    <th>ID FIDE</th>
+                    <th>ID CBX</th>
+                    <th>ID LBX</th>
+                    <th>Cidade</th>
+                    <th>Clube</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let player of players">
+                    <td>{{player.id}}</td>
+                    <td>{{player.name}}</td>
+                    <td>{{player.birthday}}</td>
+                    <td>{{player.fide_id}}</td>
+                    <td>{{player.cbx_id}}</td>
+                    <td>{{player.lbx_id}}</td>
+                    <td>{{player.city_name}}</td>
+                    <td>{{player.club_name}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

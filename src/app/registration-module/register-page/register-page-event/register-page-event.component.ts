@@ -37,4 +37,8 @@ export class RegisterPageEventComponent implements OnInit, AfterViewInit {
     }
   }
 
+  changePageByEvent(slug:string){
+    this.page_active = slug;
+  }
+
 }

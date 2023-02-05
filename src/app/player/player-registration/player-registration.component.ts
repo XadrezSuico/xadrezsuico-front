@@ -53,7 +53,6 @@ export class PlayerRegistrationComponent implements OnInit, OnChanges {
 
     private title_service:XadrezSuicoTitleService
   ) {
-    this.title_service.setTitle("Novo Cadastro de Enxadrista");
   }
   is_requesting = true;
 
@@ -97,6 +96,8 @@ export class PlayerRegistrationComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    if(!this.is_a_sub_component) this.title_service.setTitle("Novo Cadastro de Enxadrista");
+
     this.listSexes(()=>{
       this.listCountries(()=>{
         this.is_requesting = false;

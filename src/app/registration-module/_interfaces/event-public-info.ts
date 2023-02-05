@@ -1,3 +1,4 @@
+import { EventPublicLimit } from './event-public-limit';
 import { CustomField } from "src/app/_intefaces/custom-field";
 import { EventPublicInfoTime } from "./event-public-info-time";
 
@@ -8,8 +9,11 @@ export interface EventPublicInfo{
   short_description?:string;
   long_description?:string;
   city:string;
+  place:string;
   time_control:string;
   timeline?:Array<EventPublicInfoTime>;
+
+  link:string;
 
   is_registering:boolean;
   registering_status:string;
@@ -28,4 +32,6 @@ export interface EventPublicInfo{
   is_use_lbx:boolean;
 
   custom_fields:Array<CustomField>;
+
+  limits?:EventPublicLimit;
 }

@@ -14,23 +14,23 @@
             <li ngbNavItem [ngbNavItem]="'home'" *ngIf="event.tabs.includes('home')">
               <a ngbNavLink>Home</a>
               <ng-template ngbNavContent>
-                <app-register-page-event-home [event]="event"></app-register-page-event-home>
+                <app-register-page-event-home [event]="event" (change_page_emitter)="changePageByEvent($event)"></app-register-page-event-home>
               </ng-template>
             </li>
             <li ngbNavItem [ngbNavItem]="'register'" *ngIf="event.tabs.includes('register')">
-              <a ngbNavLink active>Inscreva-se</a>
+              <a ngbNavLink>Inscreva-se</a>
               <ng-template ngbNavContent>
                 <app-register-page-event-inscrever [event]="event"></app-register-page-event-inscrever>
               </ng-template>
             </li>
-            <li ngbNavItem  *ngIf="event.tabs.includes('players')">
+            <li ngbNavItem [ngbNavItem]="'players'"  *ngIf="event.tabs.includes('players')">
               <a ngbNavLink>Inscritos</a>
               <ng-template ngbNavContent>
                 <app-register-page-event-registration-list [event]="event"></app-register-page-event-registration-list>
               </ng-template>
             </li>
             <li ngbNavItem *ngIf="event.tabs.includes('pairings')">
-              <a ngbNavLink>Emparceiramentos</a>
+              <a ngbNavLink [ngbNavItem]="'pairings'">Emparceiramentos</a>
               <ng-template ngbNavContent>
                 Emparceiramentos
               </ng-template>
@@ -42,7 +42,7 @@
               </ng-template>
             </li>
             <li ngbNavItem *ngIf="event.tabs.includes('results')">
-              <a ngbNavLink>Resultados</a>
+              <a ngbNavLink [ngbNavItem]="'results'">Resultados</a>
               <ng-template ngbNavContent>
                 Resultados
               </ng-template>
@@ -53,9 +53,9 @@
     </div>
   </div>
 </div>
-<div class="row mt-2 row-infos">
+<div class="row row-infos">
   <div class="col-md-4">
-    <div class="card">
+    <div class="card mt-2">
       <div class="card-body">
         <fa-icon [icon]="faCalendar"></fa-icon>
         {{event.info.date}}
@@ -63,7 +63,7 @@
     </div>
   </div>
   <div class="col-md-4">
-    <div class="card">
+    <div class="card mt-2">
       <div class="card-body">
         <fa-icon [icon]="faMapPin"></fa-icon>
         {{event.info.city}}
@@ -71,7 +71,7 @@
     </div>
   </div>
   <div class="col-md-4">
-    <div class="card">
+    <div class="card mt-2">
       <div class="card-body">
         <fa-icon [icon]="faClock"></fa-icon>
         {{event.info.time_control}}

@@ -1,5 +1,5 @@
 import { EventPublic } from './../../../_interfaces/event-public';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-register-page-event-home',
@@ -13,7 +13,14 @@ export class RegisterPageEventHomeComponent implements OnInit {
   @Input()
   event!:EventPublic;
 
+  @Output()
+  change_page_emitter:EventEmitter<string> = new EventEmitter<string>()
+
   ngOnInit(): void {
+  }
+
+  goToPage(slug:string){
+    this.change_page_emitter.emit(slug);
   }
 
 }
