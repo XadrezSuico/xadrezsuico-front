@@ -20,6 +20,7 @@ import Swal from 'sweetalert2';
 import { PlayerClub } from '../_interfaces/player-club';
 import { DefaultSingleton } from 'src/app/_singleton/default';
 import { XadrezSuicoTitleService } from 'src/app/_services/title.service';
+import { PixelService } from 'ngx-pixel';
 
 @Component({
   selector: 'app-player-registration',
@@ -51,8 +52,11 @@ export class PlayerRegistrationComponent implements OnInit, OnChanges {
 
     private modalService: NgbModal,
 
-    private title_service:XadrezSuicoTitleService
+    private title_service:XadrezSuicoTitleService,
+
+    private pixel: PixelService
   ) {
+    this.pixel.initialize();
   }
   is_requesting = true;
 
@@ -170,6 +174,9 @@ export class PlayerRegistrationComponent implements OnInit, OnChanges {
     let response = await this.player_registration_controller.register(field_values);
     if(response.ok === 1){
       if(response.result){
+
+        // FB PIXEL
+        this.pixel.trackCustom('NewPlayer');
 
         this.player = response.player;
 

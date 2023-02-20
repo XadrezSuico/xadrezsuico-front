@@ -5,6 +5,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { faCircleNotch, faSpinner, faSearch, faTimes, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import { EventPublicCategory } from 'src/app/registration-module/_interfaces/event-public-category';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register-page-event-inscrever',
@@ -100,6 +101,13 @@ export class RegisterPageEventInscreverComponent implements OnInit {
               if(response.categories.length === 0){
                 this.page = 'search';
                 // TO DO ERROR - NO CATEGORIES
+
+                Swal.fire({
+                  title: 'Erro!',
+                  text: "Não há categorias para este(a) enxadrista se inscrever neste evento.",
+                  icon: 'error',
+                  confirmButtonText: 'Fechar'
+                });
               }else{
                 this.page = 'register'
 

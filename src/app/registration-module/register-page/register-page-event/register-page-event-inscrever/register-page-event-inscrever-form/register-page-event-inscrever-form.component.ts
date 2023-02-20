@@ -16,6 +16,7 @@ import Swal from 'sweetalert2';
 import { RegisterEventController } from 'src/app/registration-module/_controllers/register-event.controller';
 import { environment } from 'src/environments/environment';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PixelService } from 'ngx-pixel';
 
 @Component({
   selector: 'app-register-page-event-inscrever-form',
@@ -34,8 +35,12 @@ export class RegisterPageEventInscreverFormComponent implements OnInit {
     private register_event_city_controller:RegisterEventCityController,
     private register_event_club_controller:RegisterEventClubController,
 
-    private modalService: NgbModal
-    ) { }
+    private modalService: NgbModal,
+
+    private pixel: PixelService
+    ) {
+      this.pixel.initialize();
+    }
   @Input()
   event!:EventPublic;
 
@@ -134,6 +139,9 @@ export class RegisterPageEventInscreverFormComponent implements OnInit {
         if(response.ok){
           let timerInterval:number;
           if(response.response){
+            // FB PIXEL
+            this.pixel.trackCustom('PlayerRegistered');
+
             let html = "<strong>Sua inscrição foi recebida!</strong><hr/>";
             html = html.concat("Você receberá em no máximo 30 minutos uma mensagem no endereço de e-mail do cadastro com a confirmação do recebimento da inscrição para este evento.<hr/>");
             html = html.concat("A categoria que você se inscreveu possui pagamento, e com isso é necessário prosseguir com o pagamento clicando no botão abaixo:");
