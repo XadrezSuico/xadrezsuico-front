@@ -50,6 +50,12 @@ export class RegisterPageEventUpdatePlayerComponent implements OnInit, AfterView
 
     this.born_country_id = (this.player.born_country_id) ? Number(this.player.born_country_id) : 0;
 
+    if(this.fields.includes("documents") && !this.fields.includes("country_id")){
+      setTimeout(()=>{
+        this.listDocumentTypes();
+      },500);
+    }
+
   }
 
   @Input()
