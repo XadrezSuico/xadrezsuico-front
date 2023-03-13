@@ -264,14 +264,18 @@ export class RegisterPageEventInscreverFormComponent implements OnInit {
       item.value = category.id;
       item.label = category.name;
 
-      if(category.price){
-        if(category.price > 0){
-          item.label = item.label.concat(" - R$ ").concat(String(category.price));
+      if(this.event.info.is_paid){
+        if(category.price){
+          if(category.price > 0){
+            item.label = item.label.concat(" - R$ ").concat(String(category.price));
+          }else{
+            item.label = item.label.concat(" - Gratuito");
+          }
         }else{
-          item.label = item.label.concat(" - Gratuito");
+            item.label = item.label.concat(" - Gratuito");
         }
       }else{
-          item.label = item.label.concat(" - Gratuito");
+        item.label = item.label;
       }
 
       this.categories_list[this.categories_list.length] = item;
