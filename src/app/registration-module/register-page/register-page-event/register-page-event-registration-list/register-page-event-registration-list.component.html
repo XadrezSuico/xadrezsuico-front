@@ -173,13 +173,16 @@
                 <!-- PAYMENT -->
                 <td class="td-payment" *ngIf="event.info.is_paid">
                   <span *ngIf="registration.payment_info">
-                    <span *ngIf="registration.payment_info.is_paid">Pagamento Confirmado</span>
-                    <span *ngIf="!registration.payment_info.is_paid">
-                      Pagamento Pendente <br/>
-                      <a href="{{registration.payment_info.link}}" *ngIf="registration.payment_info.link"
-                        class="btn btn-sm btn-success" target="_blank">
-                        Efetuar Pagamento
-                      </a>
+                    <span *ngIf="registration.payment_info.is_free">Gratuita</span>
+                    <span *ngIf="!registration.payment_info.is_free">
+                      <span *ngIf="registration.payment_info.is_paid">Pagamento Confirmado</span>
+                      <span *ngIf="!registration.payment_info.is_paid">
+                        Pagamento Pendente <br/>
+                        <a href="{{registration.payment_info.link}}" *ngIf="registration.payment_info.link"
+                          class="btn btn-sm btn-success" target="_blank">
+                          Efetuar Pagamento
+                        </a>
+                      </span>
                     </span>
                   </span>
                 </td>
