@@ -124,6 +124,14 @@
           <label for="cbx_n_id">ID CBX</label>
           <input type="text" id="cbx_n_id" name="cbx_n_id" class="form-control" [(ngModel)]="field_values['cbx_id']" />
         </div>
+        <div class="form-group mb-3" *ngIf="fields.includes('chess_com_username')">
+          <label for="chess_com_username">Usuário Chess.com</label>
+          <input type="text" id="chess_com_username" name="chess_com_username" class="form-control" [(ngModel)]="field_values['chess_com_username']" />
+        </div>
+        <div class="form-group mb-3" *ngIf="fields.includes('lichess_username')">
+          <label for="lichess_username">Usuário Lichess.org</label>
+          <input type="text" id="lichess_username" name="lichess_username" class="form-control" [(ngModel)]="field_values['lichess_username']" />
+        </div>
 
         <button type="submit" class="btn btn-success">Atualizar Cadastro</button>
         <button type="button" class="btn btn-warning" (click)="returnToSearch()">Cancelar e Retornar a Busca</button>
