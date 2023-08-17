@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PlayerRegistrationComponent } from './player-registration/player-registration.component';
 import { Select2Module } from 'ng-select2-component';
 import { NgxMaskModule } from 'ngx-mask';
+import { DataTablesModule } from 'angular-datatables';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { NgxMaskModule } from 'ngx-mask';
     NgbNavModule,
     Select2Module,
     NgxMaskModule.forChild(),
-    SharedModule
+    SharedModule,
+    DataTablesModule
   ]
 })
 export class PlayerModule { }

@@ -11,6 +11,8 @@ import { EventPublicRegistration } from 'src/app/registration-module/_interfaces
 })
 export class RegisterPageEventRegistrationListComponent implements OnInit {
 
+  dtOptions:DataTables.Settings = {};
+
   faTimes = faTimesCircle;
   faLoading = faCircleNotch;
   constructor(private register_event_controller:RegisterEventController) { }

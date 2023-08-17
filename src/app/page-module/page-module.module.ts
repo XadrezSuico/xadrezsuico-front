@@ -5,6 +5,7 @@ import { PageComponent } from './page/page.component';
 import { PageModuleRouting } from './page-module-routing.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PageErrorComponent } from './page-error/page-error.component';
+import { DataTablesModule } from 'angular-datatables';
 
 
 
@@ -18,6 +19,7 @@ import { PageErrorComponent } from './page-error/page-error.component';
     CommonModule,
     PageModuleRouting,
     FontAwesomeModule,
+    DataTablesModule
   ]
 })
 export class PageModuleModule { }

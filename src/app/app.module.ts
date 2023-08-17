@@ -16,6 +16,7 @@ import { PageModuleModule } from './page-module/page-module.module';
 import { PlayerModule } from './player/player.module';
 import { NgxGoogleAnalyticsModule } from 'ngx-google-analytics';
 import { PixelModule } from 'ngx-pixel';
+import { DataTablesModule } from 'angular-datatables';
 
 export const options: Partial<null|IConfig> | (() => Partial<IConfig>) = null;
 
@@ -32,6 +33,7 @@ let imports = [
   PageModuleModule,
   SharedModule,
   PlayerModule,
+  DataTablesModule
 ];
 
 if(build_environment.gtag){

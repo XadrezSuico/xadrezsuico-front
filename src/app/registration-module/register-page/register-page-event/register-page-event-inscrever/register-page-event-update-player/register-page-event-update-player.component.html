@@ -123,6 +123,8 @@
           *ngIf="(fields.includes('fide_id') && born_country_id > 0 && born_country_id !== 33 && !player.fide_id)">
           <label for="cbx_n_id">ID CBX</label>
           <input type="text" id="cbx_n_id" name="cbx_n_id" class="form-control" [(ngModel)]="field_values['cbx_id']" />
+          <label for="fide_id" class="field-required">ID FIDE *</label>
+          <input type="text" id="fide_id" name="cbx_id" class="form-control" [(ngModel)]="field_values['fide_id']" />
         </div>
         <div class="form-group mb-3" *ngIf="fields.includes('chess_com_username')">
           <label for="chess_com_username">Usuário Chess.com</label>

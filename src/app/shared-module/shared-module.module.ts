@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { NewClubFormComponent } from './new-club-form/new-club-form.component';
 import { NewStateFormComponent } from './new-state-form/new-state-form.component';
 import { NewCityFormComponent } from './new-city-form/new-city-form.component';
+import { DataTablesModule } from 'angular-datatables';
 
 
 
@@ -25,7 +26,8 @@ import { NewCityFormComponent } from './new-city-form/new-city-form.component';
       Select2Module,
       NgxMaskModule.forChild(),
       RouterModule,
-      SharedRoutingModule
+      SharedRoutingModule,
+      DataTablesModule
      ],
     declarations: [
       PlayerRegistrationComponent,

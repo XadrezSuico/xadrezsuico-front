@@ -6,7 +6,11 @@
           <fa-icon [icon]="faLoading" size="4x" [spin]="true" class="default-icon-color"></fa-icon>
         </div>
         <div class="table-responsive">
-          <table class="table"  *ngIf="!is_requesting">
+          <table
+          class="table"
+          *ngIf="!is_requesting"
+          datatable
+          [dtOptions]="dtOptions">
             <thead>
               <tr>
                 <th>Enxadrista</th>
