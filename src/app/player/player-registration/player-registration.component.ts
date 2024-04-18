@@ -374,6 +374,9 @@ export class PlayerRegistrationComponent implements OnInit, OnChanges {
       this.active = 3;
 
       this.setStep(this.active-1);
+    },
+    ()=>{
+      this.is_requesting = false;
     });
   }
   goToPage4(){
@@ -565,6 +568,23 @@ export class PlayerRegistrationComponent implements OnInit, OnChanges {
       }
     }else if(documents.length > 0){
       response = await this.player_registration_controller.check("","",documents);
+
+      if(response.ok === 0){
+        Swal.fire({
+          title: 'Erro!',
+          html: response.message,
+          icon: 'error',
+          confirmButtonText: 'Fechar',
+          toast: true,
+          position: 'top-right',
+          timer: 3000,
+          timerProgressBar: true,
+        });
+
+        callback_error();
+
+        return;
+      }
 
       if(response.result && response.message && response.player){
         let html = response.message;
@@ -867,6 +887,7 @@ export class PlayerRegistrationComponent implements OnInit, OnChanges {
 
 
   updateAcceptPolicy(e:any){
+    console.log(e);
     if(this.accepts.policy){
       this.accepts.policy = 0;
     }else{
